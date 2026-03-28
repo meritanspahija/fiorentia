@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIORENTIA — Shtëpia Botuese</title>
+<link rel="icon" type="image/png" href="images/logo_fiorentia.png">
+<link rel="shortcut icon" type="image/png" href="images/logo_fiorentia.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fiorentia.netlify.app/">
+<meta property="og:title" content="FIORENTIA — Shtëpia Botuese">
+<meta property="og:description" content="Verba volant — scripta manent. Çdo libër është një udhëtim. Ne jemi ura që ju lidh me të.">
+<meta property="og:image" content="https://fiorentia.netlify.app/images/logo_fiorentia.png">
+<meta property="og:site_name" content="Shtëpia Botuese Fiorentia">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FIORENTIA — Shtëpia Botuese">
+<meta name="twitter:description" content="Verba volant — scripta manent. Çdo libër është një udhëtim. Ne jemi ura që ju lidh me të.">
+<meta name="twitter:image" content="https://fiorentia.netlify.app/images/logo_fiorentia.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LCCWD4TXFT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LCCWD4TXFT');
+</script>
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --ink:#0e0c09; --parchment:#f5f0e8; --gold:#c9a84c; --gold-light:#e8c97a;
+  --text-muted:#8a7f6e; --border:rgba(201,168,76,0.25); --section-bg:#13110d; --card-bg:#1a1712;
+}
+html { scroll-behavior:smooth; }
+body { font-family:'Lato',sans-serif; background:var(--ink); color:var(--parchment); font-weight:300; }
+
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1.2rem 4rem; background:rgba(14,12,9,0.92);
+  backdrop-filter:blur(12px); border-bottom:1px solid var(--border);
+}
+.nav-logo { font-family:'Cinzel',serif; font-size:1.1rem; letter-spacing:0.35em; color:var(--gold); text-decoration:none; text-transform:uppercase; }
+.nav-links { display:flex; gap:2.5rem; list-style:none; }
+.nav-links a { font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--parchment); text-decoration:none; opacity:0.7; transition:opacity 0.2s,color 0.2s; cursor:pointer; }
+.nav-links a:hover { opacity:1; color:var(--gold); }
+.cart-icon { cursor:pointer; color:var(--parchment); opacity:0.7; transition:opacity 0.2s,color 0.2s; display:flex; align-items:center; gap:0.5rem; }
+.cart-icon:hover { opacity:1; color:var(--gold); }
+.cart-count { background:var(--gold); color:var(--ink); width:18px; height:18px; border-radius:50%; font-size:0.65rem; font-weight:700; display:flex; align-items:center; justify-content:center; }
+
+.hero {
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center;
+  padding:2rem; position:relative;
+  background:radial-gradient(ellipse at 50% 60%, #1f1a10 0%, var(--ink) 70%);
+}
+.hero-ornament { font-size:0.7rem; letter-spacing:0.5em; color:var(--gold); text-transform:uppercase; margin-bottom:2rem; opacity:0.8; }
+.hero-ornament::before, .hero-ornament::after { content:'—'; margin:0 1rem; opacity:0.5; }
+.hero-title-wrap {
+  position:relative; display:inline-block; margin-bottom:0.5rem;
+  font-family:'Cinzel','Times New Roman',serif;
+  font-size:clamp(3.5rem,10vw,7.5rem); font-weight:600; letter-spacing:0.12em; line-height:1;
+}
+.gl { display:inline-block; color:var(--gold); transition:color 0.06s ease-out,text-shadow 0.06s ease-out,-webkit-text-stroke 0.06s ease-out; -webkit-text-stroke:0px transparent; }
+.gl.under {
+  color:#f8e898; -webkit-text-stroke:0.5px rgba(255,252,220,0.9);
+  text-shadow:0px -1px 0px rgba(255,250,200,0.95),0px 2px 0px rgba(40,20,0,0.9),0px 3px 2px rgba(0,0,0,0.7);
+}
+.gl.passed { color:var(--gold); -webkit-text-stroke:0px transparent; text-shadow:none; transition:color 0.4s,text-shadow 0.4s,-webkit-text-stroke 0.4s; }
+.scanner-line {
+  position:absolute; top:-8%; height:116%; width:2px;
+  background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,0) 100%);
+  pointer-events:none; opacity:0; filter:blur(0.4px);
+  box-shadow:0 0 6px 1px rgba(255,255,255,0.6);
+}
+.hero-sub { font-family:'Cormorant Garamond',serif; font-size:clamp(1rem,2.5vw,1.4rem); font-weight:300; font-style:italic; letter-spacing:0.08em; color:var(--parchment); opacity:0.75; margin-bottom:3rem; }
+.hero-divider { width:120px; height:1px; background:linear-gradient(to right,transparent,var(--gold),transparent); margin:0 auto 3rem; }
+.hero-tagline { font-family:'Cormorant Garamond',serif; font-size:clamp(1.1rem,2vw,1.5rem); font-style:italic; color:var(--parchment); opacity:0.6; max-width:500px; }
+.hero-cta { margin-top:3.5rem; display:flex; gap:1.5rem; flex-wrap:wrap; justify-content:center; position:relative; z-index:10; }
+.btn-gold { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--ink); background:var(--gold); border:none; padding:0.9rem 2.5rem; cursor:pointer; text-decoration:none; transition:background 0.25s; display:inline-block; }
+.btn-gold:hover { background:var(--gold-light); }
+.btn-outline { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); background:transparent; border:1px solid var(--gold); padding:0.9rem 2.5rem; cursor:pointer; text-decoration:none; transition:background 0.25s; display:inline-block; }
+.btn-outline:hover { background:rgba(201,168,76,0.08); }
+
+section { padding:7rem 2rem; }
+.section-label { font-size:0.65rem; letter-spacing:0.45em; text-transform:uppercase; color:var(--gold); opacity:0.75; margin-bottom:1.2rem; }
+.section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3rem); font-weight:300; color:var(--parchment); line-height:1.2; margin-bottom:0.5rem; }
+.gold-line { width:60px; height:1px; background:var(--gold); margin:1.5rem 0; }
+.container { max-width:1200px; margin:0 auto; }
+
+#rreth-nesh { background:var(--section-bg); }
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; margin-top:4rem; }
+.about-text p { font-family:'Cormorant Garamond',serif; font-size:1.2rem; line-height:1.9; color:var(--parchment); opacity:0.85; margin-bottom:1.5rem; }
+.about-visual { display:flex; flex-direction:column; gap:2rem; }
+.stat-item { border-left:1px solid var(--gold); padding-left:1.5rem; }
+.stat-number { font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:300; color:var(--gold); line-height:1; }
+.stat-label { font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--parchment); opacity:0.55; margin-top:0.3rem; }
+
+#katalog { background:var(--ink); }
+.filter-bar { display:flex; gap:1rem; flex-wrap:wrap; margin:2.5rem 0 3.5rem; }
+.filter-btn { font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--parchment); background:transparent; border:1px solid rgba(201,168,76,0.25); padding:0.5rem 1.4rem; cursor:pointer; transition:all 0.2s; opacity:0.6; }
+.filter-btn.active,.filter-btn:hover { border-color:var(--gold); color:var(--gold); opacity:1; background:rgba(201,168,76,0.05); }
+
+#autoret { background:var(--section-bg); }
+.authors-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2rem; margin-top:3.5rem; }
+.author-card { background:var(--card-bg); border:1px solid var(--border); padding:2rem; transition:border-color 0.3s; }
+.author-card:hover { border-color:rgba(201,168,76,0.5); }
+.author-avatar { width:64px; height:64px; border-radius:50%; border:1px solid #000; display:flex; align-items:center; justify-content:center; margin-bottom:1.2rem; background:rgba(201,168,76,0.06); overflow:hidden; padding:0; }
+.author-name { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--parchment); margin-bottom:0.3rem; }
+.author-genre { font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); opacity:0.7; margin-bottom:1rem; }
+.author-bio { font-family:'Cormorant Garamond',serif; font-size:1rem; font-style:italic; line-height:1.7; color:var(--parchment); opacity:0.65; margin-bottom:1.2rem; }
+
+#kontakt { background:var(--ink); }
+.contact-wrapper { display:grid; grid-template-columns:1fr 1.4fr; gap:6rem; margin-top:4rem; align-items:start; }
+.contact-info h3 { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:var(--parchment); margin-bottom:1.5rem; }
+.contact-detail { margin-bottom:1.5rem; }
+.contact-detail-label { font-size:0.62rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); opacity:0.7; margin-bottom:0.4rem; }
+.contact-detail-value { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--parchment); opacity:0.85; }
+.contact-form { display:flex; flex-direction:column; gap:1.2rem; }
+.form-group { display:flex; flex-direction:column; gap:0.4rem; }
+.form-label { font-size:0.62rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); opacity:0.7; }
+.form-input,.form-select,.form-textarea { background:rgba(201,168,76,0.04); border:1px solid rgba(201,168,76,0.2); color:var(--parchment); padding:0.85rem 1rem; font-family:'Lato',sans-serif; font-size:0.9rem; font-weight:300; outline:none; transition:border-color 0.2s; }
+.form-input:focus,.form-select:focus,.form-textarea:focus { border-color:var(--gold); }
+.form-select { appearance:none; cursor:pointer; }
+.form-textarea { resize:vertical; min-height:130px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+
+.modal-overlay { position:fixed; inset:0; z-index:300; background:rgba(8,7,5,0.92); display:flex; align-items:center; justify-content:center; padding:2rem; opacity:0; pointer-events:none; transition:opacity 0.35s; }
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal { background:var(--card-bg); border:1px solid rgba(201,168,76,0.3); max-width:900px; width:100%; max-height:90vh; overflow:hidden; display:grid; grid-template-columns:320px minmax(0,1fr); transform:translateY(20px); transition:transform 0.35s; }
+.modal-overlay.open .modal { transform:translateY(0); }
+.modal-cover { width:320px; min-width:320px; max-width:320px; overflow:hidden; align-self:stretch; background:#3a0000; display:flex; align-items:center; justify-content:center; }
+.modal-cover img { width:100%; height:100%; object-fit:contain; display:block; background:#3a0000; }
+.modal-body { padding:2.5rem 2rem; display:flex; flex-direction:column; gap:1.2rem; position:relative; overflow-y:auto; max-height:90vh; }
+.modal-close { position:absolute; top:1.2rem; right:1.2rem; background:transparent; border:none; color:var(--parchment); opacity:0.4; font-size:1.4rem; cursor:pointer; transition:opacity 0.2s; }
+.modal-close:hover { opacity:1; }
+.modal-genre { font-size:0.6rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); opacity:0.75; }
+.modal-title { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; color:var(--parchment); line-height:1.2; }
+.modal-subtitle { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-style:italic; color:var(--gold); opacity:0.85; margin-top:-0.8rem; }
+.modal-divider { width:50px; height:1px; background:var(--gold); opacity:0.4; }
+.modal-author { font-family:'Cormorant Garamond',serif; font-size:1.15rem; color:var(--parchment); }
+.modal-translator { font-size:0.72rem; letter-spacing:0.1em; color:var(--parchment); opacity:0.5; font-style:italic; }
+.modal-desc { font-family:'Cormorant Garamond',serif; font-size:1.05rem; line-height:1.85; color:var(--parchment); opacity:0.75; }
+.modal-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; padding-top:1.2rem; border-top:1px solid rgba(201,168,76,0.15); }
+.modal-price { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--gold); }
+
+.toast { position:fixed; bottom:2rem; right:2rem; background:var(--card-bg); border:1px solid var(--gold); padding:1rem 1.5rem; font-family:'Cormorant Garamond',serif; font-style:italic; color:var(--parchment); font-size:1rem; z-index:999; opacity:0; transform:translateY(10px); transition:opacity 0.3s,transform 0.3s; pointer-events:none; }
+.toast.show { opacity:1; transform:translateY(0); }
+
+footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1px solid var(--border); }
+.footer-logo { font-family:'Cinzel',serif; font-size:1.2rem; letter-spacing:0.35em; color:var(--gold); margin-bottom:1rem; }
+.footer-text { font-size:0.7rem; letter-spacing:0.1em; color:var(--parchment); opacity:0.3; }
+
+@media (max-width:768px) {
+  nav { padding:1rem 1.5rem; } .nav-links { display:none; }
+  .about-grid,.contact-wrapper { grid-template-columns:1fr; gap:3rem; }
+  .form-row { grid-template-columns:1fr; } section { padding:5rem 1.5rem; }
+  .modal { grid-template-columns:1fr; } .modal-cover { width:100%; max-width:100%; min-height:260px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Fiorentia</a>
+  <ul class="nav-links">
+    <li><a onclick="document.getElementById('rreth-nesh').scrollIntoView({behavior:'smooth'})">Rreth Nesh</a></li>
+    <li><a onclick="document.getElementById('katalog').scrollIntoView({behavior:'smooth'})">Katalog</a></li>
+    <li><a onclick="document.getElementById('autoret').scrollIntoView({behavior:'smooth'})">Autorët</a></li>
+    <li><a onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Kontakt</a></li>
+  </ul>
+  <div class="cart-icon" onclick="toggleCart()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+    </svg>
+    <span id="cart-count" class="cart-count" style="display:none">0</span>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <p class="hero-ornament">Shtëpia Botuese</p>
+  <div class="hero-title-wrap" id="fioTitle" aria-label="FIORENTIA">
+    <div class="scanner-line" id="scanLine"></div>
+  </div>
+  <p class="hero-sub">Verba volant — scripta manent</p>
+  <div class="hero-divider"></div>
+  <p class="hero-tagline">Çdo libër është një dritare drejt botëve të reja</p>
+  <div class="hero-cta">
+    <a onclick="document.getElementById('katalog').scrollIntoView({behavior:'smooth'})" class="btn-gold">Shiko Katalogun</a>
+    <a onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})" class="btn-outline">Na Kontaktoni</a>
+  </div>
+</section>
+
+<section id="rreth-nesh">
+  <div class="container">
+    <p class="section-label">Historia jonë</p>
+    <h2 class="section-title">Rreth Shtëpisë Botuese Fiorentia</h2>
+    <div class="gold-line"></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Fiorentia është një shtëpi botuese shqiptare e themeluar me misionin për të nxitur letërsinë origjinale shqipe dhe për të sjellë në duart e lexuesve vepra me vlerë artistike e kulturore.</p>
+        <p>Me një kujdes të veçantë për çdo detaj — nga teksti deri tek dizajni i kopertinës — çdo libër i Fiorentias është kthyer në një objekt arti më vete, denjë për koleksionin tuaj.</p>
+        <p>Ne besojmë se librat janë trashëgimia jonë më e çmuar. Misioni ynë është të ruajmë dhe pasurojmë traditën e madhe letrare shqipe.</p>
+      </div>
+      <div class="about-visual">
+        <div class="stat-item"><div class="stat-number">120+</div><div class="stat-label">Tituj të botuar</div></div>
+        <div class="stat-item"><div class="stat-number">45</div><div class="stat-label">Autorë bashkëpunues</div></div>
+        <div class="stat-item"><div class="stat-number">12</div><div class="stat-label">Vite eksperiencë</div></div>
+        <div class="stat-item"><div class="stat-number">8</div><div class="stat-label">Çmime letrare kombëtare</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="katalog">
+  <div class="container">
+    <p class="section-label">Koleksioni ynë</p>
+    <h2 class="section-title">Katalogu i Librave</h2>
+    <div class="gold-line"></div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterBooks(this,'all')">Të gjitha</button>
+      <button class="filter-btn" onclick="filterBooks(this,'klasikë')">Klasikë</button>
+      <button class="filter-btn" onclick="filterBooks(this,'proza')">Prozë</button>
+      <button class="filter-btn" onclick="filterBooks(this,'poezi')">Poezi</button>
+      <button class="filter-btn" onclick="filterBooks(this,'roman')">Roman</button>
+      <button class="filter-btn" onclick="filterBooks(this,'histori')">Histori</button>
+      <button class="filter-btn" onclick="filterBooks(this,'ese')">Ese</button>
+    </div>
+  </div>
+  <div id="books-grid"></div>
+</section>
+
+<section id="autoret">
+  <div class="container">
+    <p class="section-label">Zërat tanë</p>
+    <h2 class="section-title">Profili i Autorëve</h2>
+    <div class="gold-line"></div>
+    <div class="authors-grid" id="authors-grid"></div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="container">
+    <p class="section-label">Na gjeni</p>
+    <h2 class="section-title">Kontakt & Porosi</h2>
+    <div class="gold-line"></div>
+    <div class="contact-wrapper">
+      <div class="contact-info">
+        <h3>Jemi këtu për ju</h3>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Adresa</div>
+          <div class="contact-detail-value">Shkodër, Shqipëri</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Telefon</div>
+          <div class="contact-detail-value">Meritan Spahija: 068 204 8664<br>Abel Spahija: 068 204 8668</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-value"><a href="/cdn-cgi/l/email-protection#9ff2faedf6ebfef1b1eceffef7f6f5fedff8f2fef6f3b1fcf0f2" style="color:var(--parchment);text-decoration:none;"><span class="__cf_email__" data-cfemail="442921362d30252a6a3734252c2d2e25042329252d286a272b29">[email&#160;protected]</span></a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Orari</div>
+          <div class="contact-detail-value">E Hënë – E Premte<br>09:00 – 17:00</div>
+        </div>
+        <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border);">
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--parchment);opacity:0.55;font-size:1rem;line-height:1.8;">"Çdo libër është një udhëtim. Ne jemi ura që ju lidh me të."</p>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="submitForm(event)">
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Emri</label><input type="text" class="form-input" placeholder="Emri juaj" required></div>
+          <div class="form-group"><label class="form-label">Mbiemri</label><input type="text" class="form-input" placeholder="Mbiemri juaj" required></div>
+        </div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="email@shembull.com" required></div>
+        <div class="form-group"><label class="form-label">Telefon</label><input type="tel" class="form-input" placeholder="+355 6X XXX XXXX"></div>
+        <div class="form-group">
+          <label class="form-label">Qëllimi</label>
+          <select class="form-select form-input">
+            <option value="">Zgjidhni...</option>
+            <option>Porosi libri</option>
+            <option>Bashkëpunim editorial</option>
+            <option>Informacion i përgjithshëm</option>
+            <option>Propozim dorëshkrimi</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Mesazhi</label><textarea class="form-textarea form-input" placeholder="Shkruani mesazhin tuaj këtu..."></textarea></div>
+        <button type="submit" class="btn-gold" style="border:none;cursor:pointer;font-family:'Cinzel',serif;">Dërgo Mesazhin →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">FIORENTIA</div>
+  <p class="footer-text">© 2025 Shtëpia Botuese Fiorentia. Të gjitha të drejtat të rezervuara.</p>
+</footer>
+
+<div class="modal-overlay" id="bookModal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-cover" id="modalCover"></div>
+    <div class="modal-body">
+      <button class="modal-close" onclick="closeModal(null,true)">✕</button>
+      <div class="modal-genre" id="modalGenre"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-subtitle" id="modalSubtitle"></div>
+      <div class="modal-divider"></div>
+      <div id="modalReadUrl" style="display:none;">
+        <a id="modalReadLink" href="#" target="_blank" style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:#0e0c09;background:#c9a84c;padding:0.45rem 1.4rem;text-decoration:none;display:inline-block;">Lexo online →</a>
+      </div>
+      <div class="modal-author" id="modalAuthor"></div>
+      <div class="modal-translator" id="modalTranslator"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-footer">
+        <div class="modal-price" id="modalPrice"></div>
+        <button class="btn-gold" id="modalOrderBtn" style="font-size:0.65rem;padding:0.7rem 1.8rem;border:none;cursor:pointer;display:none;" onclick="toggleOrderForm()">Porosit →</button>
+        <button class="btn-gold" id="modalAdd" style="font-size:0.65rem;padding:0.7rem 1.8rem;border:none;cursor:pointer;">+ Shto në shportë</button>
+      </div>
+      <div id="orderForm" style="display:none;margin-top:1.5rem;border-top:1px solid rgba(201,168,76,0.2);padding-top:1.5rem;">
+        <div style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);opacity:0.75;margin-bottom:1rem;">Formulari i Porosisë</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem;">
+          <div>
+            <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:0.3rem;">Emri & Mbiemri</div>
+            <input type="text" id="orderName" placeholder="Emri juaj" style="width:100%;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.2);color:var(--parchment);padding:0.6rem 0.8rem;font-family:'Lato',sans-serif;font-size:0.85rem;outline:none;">
+          </div>
+          <div>
+            <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:0.3rem;">Telefon</div>
+            <input type="tel" id="orderPhone" placeholder="+355 6X XXX XXXX" style="width:100%;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.2);color:var(--parchment);padding:0.6rem 0.8rem;font-family:'Lato',sans-serif;font-size:0.85rem;outline:none;">
+          </div>
+        </div>
+        <div style="margin-bottom:0.8rem;">
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:0.3rem;">Email</div>
+          <input type="email" id="orderEmail" placeholder="email@shembull.com" style="width:100%;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.2);color:var(--parchment);padding:0.6rem 0.8rem;font-family:'Lato',sans-serif;font-size:0.85rem;outline:none;">
+        </div>
+        <div style="margin-bottom:0.8rem;">
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:0.3rem;">Adresa e dërgimit</div>
+          <input type="text" id="orderAddress" placeholder="Qyteti, Shteti" style="width:100%;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.2);color:var(--parchment);padding:0.6rem 0.8rem;font-family:'Lato',sans-serif;font-size:0.85rem;outline:none;">
+        </div>
+        <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);padding:1rem;margin-bottom:1rem;">
+          <div style="font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;">Instruksionet e Transfertës Bankare</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--parchment);opacity:0.75;line-height:1.8;">
+            <div style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.8;margin-bottom:0.3rem;">Llogaria në Lekë</div>
+            Emri: <strong style="color:var(--parchment);opacity:1;">Meritan Spahija</strong><br>
+            Nr. Llogarie: <strong style="color:var(--parchment);opacity:1;">0000608878</strong><br>
+            IBAN: <strong style="color:var(--parchment);opacity:1;">AL50202510020000000000608878</strong><br>
+            Shuma: <strong style="color:var(--gold);" id="orderAmount"></strong><br>
+            Arsyeja: <strong style="color:var(--parchment);opacity:1;" id="orderReason"></strong>
+          </div>
+          <div style="height:1px;background:rgba(201,168,76,0.15);margin:0.8rem 0;"></div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--parchment);opacity:0.75;line-height:1.8;">
+            <div style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.8;margin-bottom:0.3rem;">Llogaria në Euro</div>
+            Emri: <strong style="color:var(--parchment);opacity:1;">Meritan Spahija</strong><br>
+            Nr. Llogarie: <strong style="color:var(--parchment);opacity:1;">0020608878</strong><br>
+            IBAN: <strong style="color:var(--parchment);opacity:1;">AL20202510020000000020608878</strong><br>
+            Arsyeja: <strong style="color:var(--parchment);opacity:1;" id="orderReason2"></strong>
+          </div>
+        </div>
+        <button onclick="submitOrder()" style="width:100%;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink);background:var(--gold);border:none;padding:0.8rem;cursor:pointer;">Konfirmo Porosinë →</button>
+        <div id="orderSuccess" style="display:none;margin-top:1rem;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold);font-size:1rem;">Faleminderit! Do t'ju kontaktojmë së shpejti. 🙏</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const books = [
+  { id:1, title:"Komedia Hyjnore", subtitle:"Kantiku I — Ferri", author:"Dante Alighieri", translator:"Përktheu & komentoi Meritan Spahija", price:2000, genre:"klasikë", cover:"images/covers/komedia-hyjnore-ferri.jpg", readUrl:"https://heyzine.com/flip-book/34e12c8c96.html", color1:"#0d0805", color2:"#1e1206", accent:"#c9a84c", desc:"Botuar në vitin 2018 si një vëllim voluminoz prej 906 faqesh me komente të thelluara, Ferri është kantiku i parë i Komedisë Hyjnore të Dante Alighierit. Rezultat i mbi 15 viteve pune shkencore dhe poetike, ky përkthim sjell universin dantesk me një aparat kritik të paprecedentë në gjuhën shqipe. Meritan Spahija udhëheq lexuesin nëpër nëntë rrethet e Ferrit me saktësinë e gjuhëtarit dhe ndjeshmërinë e poetit." },
+  { id:2, title:"Komedia Hyjnore", subtitle:"Kantiku II — Purgatori", author:"Dante Alighieri", translator:"Përktheu & komentoi Meritan Spahija", price:0, genre:"klasikë", cover:"images/covers/komedia-hyjnore-purgatori.jpg", readUrl:"https://heyzine.com/flip-book/05a1a761e5.html", color1:"#0a0d10", color2:"#121820", accent:"#a0b8c8", desc:"Purgatori është kantiku i dytë i Komedisë Hyjnore të Dante Alighierit. Pas udhëtimit nëpër errësirën e Ferrit, Dante ngjitet nëpër shpatin e malit të Purgatorit, ku shpirtrat shpërblejnë mëkatet e tyre në pritje të shpëtimit. Ky vëllim, aktualisht në fazën e redaktimit final, vazhdon punën e jashtëzakonshme shkencore dhe poetike të Meritan Spahijës me aparatin e tij kritik të paprecedentë në gjuhën shqipe." },
+  { id:3, title:"Monolog me veten", author:"Meritan Spahija", price:1000, genre:"proza", cover:"images/covers/monolog_me_veten.jpg", readUrl:"https://heyzine.com/flip-book/7da235a1b1.html", color1:"#100d08", color2:"#1e1810", accent:"#c9a84c", desc:"\"Monolog me veten\" (2016) është një vepër prozaike e Meritan Spahijës, e pasur me nota autobiografike dhe simbolikë. Një dialog i thellë i autorit me veten, me kohën dhe me universin e tij krijues." },
+  { id:4, title:"Vetimat e shuejnë inatin n'Bunë", author:"Rozafa Shpuza", price:800, genre:"poezi", cover:"images/covers/vetimat.jpg", readUrl:"https://heyzine.com/flip-book/7d85345e09.html", color1:"#1a0808", color2:"#2a1010", accent:"#e8c84c", desc:"Rozafa Shpuza lindi në Shkodër, qytetin që ka lanë gjurmë të pashlyeshme në krijimtarinë e saj. Asht poete, fotografe dhe kuratore. Arti i saj lëviz natyrshëm mes fjalës dhe imazhit, tue krijue nji univers të vetin shprehës. Asht autore e pesë librave: \"Kohë ikonash\", \"Anipse\", \"Grizhlat\", \"Nana i qindiste kryq dimnat\" dhe \"Vetimat e shuejnë inatin n'Bunë\". Poezitë e saj janë vlerësue me çmime kombëtare e ndërkombëtare. Ka ekspozue brenda dhe jashtë Shqipnisë dhe drejton galerinë \"ODA\" në Shkodër." },
+  { id:5, title:"O sot o kurrë", author:"Pjetër Logoreci", price:1500, genre:"histori", cover:"images/covers/o_sot_o_kurre.jpg", readUrl:"https://heyzine.com/flip-book/abacb7d247.html", color1:"#0a0d10", color2:"#141a20", accent:"#8a9ab0", desc:"Vepër e Pjetër Logoreci mbi Dom Nikollë Kaçorrin, patriotin e madh të lëvizjes për pavarësi. Një rikthim i rëndësishëm në historinë kombëtare shqiptare, bazuar në hulumtime arkivore nga Vjena." },
+];
+
+const authors = [
+  { initials:"MS", photo:"images/meritan.jpg", name:"Meritan Spahija", genre:"Gjuhëtar · Autor · Përkthyes · Botues", bio:"Meritan Spahija (l. 1967, Shkodër) është gjuhëtar, autor dhe botues me një kontribut të spikatur në letërsinë shqipe dhe përkthimin e kryeveprave botërore. U diplomua si mësues në Universitetin \"Luigj Gurakuqi\" (1990) dhe mban gradën Master Shkencor në Studime të thelluara në Gjuhësi (2014). Njeh shkëlqyeshëm italishten, anglishten dhe frëngjishten.", details:[ { label:"Krijimtaria letrare", text:"Prozë dhe tregime: \"Luleshtrydhet\" (2002), \"Vegimet e një dite me shi\" (2004), \"Alegoria e një historie të vërtetë\" (2007), \"Vegimet e fundit\" (2010), \"Monolog me veten\" (2016), \"Enea iku i fundit\" (2017)." }, { label:"Projekti i jetës — Dante Alighieri", text:"Për mbi 15 vite ka punuar për përkthimin dhe komentimin e Komedisë Hyjnore me aparat kritik të paprecedentë në gjuhën shqipe." }, { label:"Ferri", text:"Botuar në 2018 — vëllim prej 906 faqesh me komente të thelluara." }, { label:"Ferri — manual", text:"Botuar nga shtëpia botuese Albas (2023) për nxënësit e shkollave të mesme." }, { label:"Purgatori", text:"Aktualisht në fazën e redaktimit final." }, { label:"Parajsa", text:"Në proces të vijueshëm përkthimi dhe komentimi." }, { label:"Viktor Hugo", text:"Ka sjellë në shqip pjesë të censuruara të romanit \"Të mjerët\" (1997)." } ], books:"Themelues i Shtëpisë Botuese Fiorentia (2012)" },
+  { initials:"RS", photo:"images/rozafa.jpg", name:"Rozafa Shpuza", genre:"Poete · Fotografe · Kuratore", bio:"Rozafa Shpuza lindi në Shkodër, qytetin që ka lanë gjurmë të pashlyeshme në krijimtarinë e saj. Arti i saj lëviz natyrshëm mes fjalës dhe imazhit, tue krijue nji univers të vetin shprehës. Autore e pesë librave poetike, poezitë e saj janë vlerësue me çmime kombëtare e ndërkombëtare. Prej vitesh drejton galerinë \"ODA\" në Shkodër.", books:"1 titull në Fiorentia" },
+  { initials:"PL", photo:"images/pjetri.jpg", name:"Pjetër Logoreci", genre:"Studiues · Publicist · Ambasador i Paqes", bio:"Pjetër Logoreci leu në Shkodër në familjen qytetare e atdhetare Logoreci. Kreu studimet në shkencat juridike në Universitetin e Shkodres \"Luigj Gurakuqi\". Pas vitit 1997, për arsye politike u largue në Austri ku jeton dhe sot. Veprimtar aktiv për liri e demokraci. Mori pjesë në grevën kombëtare të urisë për të drejtat e të burgosurve politik. Si studiues, merret me figurat kombëtare shqiptare në arkivat e Austrisë. Asht AMBASADOR I PAQES, gëzon MIRËNJOHJA E LURËS dhe «Mirënjohja e Presidentit» Alfred Moisiu. Ka pregaditë e botue dy libra dhe nji album me fotografi.", books:"1 titull në Fiorentia" },
+];
+
+let cart = 0;
+let activeFilter = 'all';
+
+function renderBooks() {
+  const grid = document.getElementById('books-grid');
+  grid.style.cssText = 'display:flex;flex-direction:row;flex-wrap:nowrap;gap:2.5rem;overflow-x:auto;padding:2rem 4rem 1.5rem;align-items:flex-start;';
+  const filtered = activeFilter === 'all' ? books : books.filter(b => b.genre === activeFilter);
+  grid.innerHTML = filtered.map(b => `
+    <div onclick="openModal(${b.id})" style="width:200px;min-width:200px;max-width:200px;flex-shrink:0;cursor:pointer;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
+      <div style="width:200px;aspect-ratio:2/3;overflow:hidden;border:1px solid rgba(201,168,76,0.15);margin-bottom:1rem;${b.cover?'':'background:linear-gradient(160deg,'+b.color1+','+b.color2+');'}">
+        ${b.cover?`<img src="${b.cover}" alt="${b.title}" style="width:100%;height:100%;object-fit:cover;display:block;">`:`<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#f5f0e8;line-height:1.3;margin-bottom:0.8rem;">${b.title}</div><div style="font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:${b.accent};">${b.author}</div></div>`}
+      </div>
+      <div style="padding:0 0.25rem;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#f5f0e8;margin-bottom:0.3rem;">${b.title}${b.subtitle?' — '+b.subtitle:''}</div>
+        <div style="font-size:0.68rem;letter-spacing:0.1em;color:#c9a84c;opacity:0.75;margin-bottom:0.4rem;">${b.author}</div>
+        ${b.translator?`<div style="font-size:0.65rem;color:#8a7f6e;margin-bottom:0.4rem;font-style:italic;">${b.translator}</div>`:''}
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#c9a84c;">${b.price>0?b.price.toLocaleString()+' Lekë':'Çmimi — së shpejti'}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderAuthors() {
+  document.getElementById('authors-grid').innerHTML = authors.map(a => `
+    <div class="author-card">
+      <div class="author-avatar">${a.photo?`<img src="${a.photo}" alt="${a.name}" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;">`:`<span style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold);">${a.initials}</span>`}</div>
+      <div class="author-name">${a.name}</div>
+      <div class="author-genre">${a.genre}</div>
+      <div class="author-bio">${a.bio}</div>
+      ${a.details?a.details.map(d=>`<div style="border-top:1px solid rgba(201,168,76,0.12);padding-top:0.8rem;margin-top:0.2rem;"><div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.7;margin-bottom:0.3rem;">${d.label}</div><div style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-style:italic;color:var(--parchment);opacity:0.7;line-height:1.6;">${d.text}</div></div>`).join(''):''}
+      <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-top:0.8rem;">📚 ${a.books}</div>
+    </div>`).join('');
+}
+
+function filterBooks(btn, genre) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active'); activeFilter = genre; renderBooks();
+}
+
+function openModal(id) {
+  const b = books.find(x => x.id === id); if (!b) return;
+  document.getElementById('modalGenre').textContent = b.genre.toUpperCase();
+  document.getElementById('modalTitle').textContent = b.title;
+  document.getElementById('modalSubtitle').textContent = b.subtitle||'';
+  document.getElementById('modalSubtitle').style.display = b.subtitle?'block':'none';
+  document.getElementById('modalAuthor').textContent = b.author;
+  document.getElementById('modalTranslator').textContent = b.translator||'';
+  document.getElementById('modalTranslator').style.display = b.translator?'block':'none';
+  document.getElementById('modalDesc').textContent = b.desc||'';
+  document.getElementById('modalPrice').textContent = b.price>0?b.price.toLocaleString()+' Lekë':'Çmimi — së shpejti';
+  document.getElementById('modalAdd').onclick = () => addToCart(b.title);
+  document.getElementById('modalOrderBtn').style.display = b.price>0?'inline-block':'none';
+  document.getElementById('orderForm').style.display = 'none';
+  document.getElementById('orderSuccess').style.display = 'none';
+  const reason = b.subtitle?b.title+' — '+b.subtitle:b.title;
+  document.getElementById('orderAmount').textContent = b.price.toLocaleString()+' Lekë';
+  document.getElementById('orderReason').textContent = reason;
+  document.getElementById('orderReason2').textContent = reason;
+  const ru = document.getElementById('modalReadUrl');
+  if (b.readUrl) { document.getElementById('modalReadLink').href = b.readUrl; ru.style.display='block'; } else { ru.style.display='none'; }
+  const cover = document.getElementById('modalCover');
+  cover.innerHTML = b.cover?`<img src="${b.cover}" alt="${b.title}" style="width:100%;height:100%;object-fit:contain;display:block;background:#3a0000;">`:`<div style="width:100%;height:100%;min-height:360px;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,${b.color1},${b.color2});"><div style="color:${b.accent};font-family:'Cormorant Garamond',serif;font-size:1.3rem;text-align:center;padding:2rem;">${b.title}</div></div>`;
+  document.getElementById('bookModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e, force) {
+  if (force||(e&&e.target===document.getElementById('bookModal'))) {
+    document.getElementById('bookModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function toggleOrderForm() {
+  const f = document.getElementById('orderForm');
+  f.style.display = f.style.display==='none'?'block':'none';
+}
+
+function submitOrder() {
+  const name = document.getElementById('orderName').value.trim();
+  const email = document.getElementById('orderEmail').value.trim();
+  const address = document.getElementById('orderAddress').value.trim();
+  if (!name||!email||!address) { showToast('Ju lutemi plotësoni të gjitha fushat!'); return; }
+  document.getElementById('orderSuccess').style.display = 'block';
+  ['orderName','orderPhone','orderEmail','orderAddress'].forEach(id => document.getElementById(id).value='');
+}
+
+function addToCart(title) {
+  cart++; const el = document.getElementById('cart-count');
+  el.textContent = cart; el.style.display = 'flex';
+  showToast('"'+title+'" u shtua në shportë');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function toggleCart() {
+  showToast(cart===0?'Shporta juaj është bosh':'Keni '+cart+' libër/libra në shportë');
+}
+
+function submitForm(e) {
+  e.preventDefault(); showToast('Mesazhi juaj u dërgua me sukses!'); e.target.reset();
+}
+
+renderBooks();
+renderAuthors();
+
+(function(){
+  const word = 'FIORENTIA';
+  const wrap = document.getElementById('fioTitle');
+  const line = document.getElementById('scanLine');
+  const spans = [];
+  word.split('').forEach(ch => {
+    const s = document.createElement('span');
+    s.className = 'gl'; s.textContent = ch;
+    wrap.appendChild(s); spans.push(s);
+  });
+
+  let audioCtx = null;
+  let heroVisible = false;
+  const obs = new IntersectionObserver(entries => { heroVisible = entries[0].isIntersecting; }, {threshold:0.3});
+  obs.observe(document.getElementById('hero'));
+
+  function playScanSound(dur) {
+    if (!heroVisible) return;
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const ctx = audioCtx; const t = dur/1000;
+      const osc = ctx.createOscillator(); const gain = ctx.createGain(); const filt = ctx.createBiquadFilter();
+      osc.type='sawtooth'; osc.frequency.setValueAtTime(2400,ctx.currentTime);
+      osc.frequency.linearRampToValueAtTime(600,ctx.currentTime+t);
+      filt.type='highpass'; filt.frequency.value=1800; filt.Q.value=8;
+      gain.gain.setValueAtTime(0,ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.025,ctx.currentTime+0.04);
+      gain.gain.linearRampToValueAtTime(0,ctx.currentTime+t);
+      osc.connect(filt); filt.connect(gain); gain.connect(ctx.destination);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime+t);
+    } catch(e) {}
+  }
+
+  function runScan() {
+    const wr = wrap.getBoundingClientRect();
+    const totalW = wr.width; const duration = 1600; const pause = 15000;
+    let start = null;
+    line.style.opacity = '1';
+    playScanSound(duration);
+    function frame(ts) {
+      if (!start) start = ts;
+      const p = Math.min((ts-start)/duration, 1);
+      const x = p * totalW;
+      line.style.left = x+'px';
+      spans.forEach(s => {
+        const r = s.getBoundingClientRect();
+        const center = r.left - wr.left + r.width/2;
+        const dist = Math.abs(x-center);
+        const radius = r.width*0.75;
+        if (dist<radius) { s.classList.add('under'); s.classList.remove('passed'); }
+        else if (x>center+radius) { s.classList.remove('under'); s.classList.add('passed'); }
+      });
+      if (p<1) { requestAnimationFrame(frame); }
+      else {
+        line.style.opacity='0';
+        spans.forEach(s => { s.classList.remove('under'); s.classList.add('passed'); setTimeout(()=>s.classList.remove('passed'),500); });
+        setTimeout(runScan, pause);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  setTimeout(runScan, 1800);
+})();
+</script>
+</body>
+</html>
