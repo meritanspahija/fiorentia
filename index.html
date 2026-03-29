@@ -76,6 +76,8 @@ nav {
 .hero-sub { font-family:'Cormorant Garamond',serif; font-size:clamp(1rem,2.5vw,1.4rem); font-weight:300; font-style:italic; letter-spacing:0.08em; color:var(--parchment); opacity:0.75; margin-bottom:3rem; }
 .hero-divider { width:120px; height:1px; background:linear-gradient(to right,transparent,var(--gold),transparent); margin:0 auto 3rem; }
 .hero-tagline { font-family:'Cormorant Garamond',serif; font-size:clamp(1.1rem,2vw,1.5rem); font-style:italic; color:var(--parchment); opacity:0.6; max-width:500px; }
+.fgl { display:inline; color:inherit; transition:color 0.06s ease-out, text-shadow 0.06s ease-out; }
+.fgl.under { color:#ffffff; text-shadow:0px -1px 2px rgba(255,255,255,0.95), 0px 1px 2px rgba(255,255,255,0.9), 0 0 8px rgba(255,255,255,0.6); }
 .hero-cta { margin-top:3.5rem; display:flex; gap:1.5rem; flex-wrap:wrap; justify-content:center; position:relative; z-index:10; }
 .btn-gold { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--ink); background:var(--gold); border:none; padding:0.9rem 2.5rem; cursor:pointer; text-decoration:none; transition:background 0.25s; display:inline-block; }
 .btn-gold:hover { background:var(--gold-light); }
@@ -102,7 +104,8 @@ section { padding:7rem 2rem; }
 .filter-btn.active,.filter-btn:hover { border-color:var(--gold); color:var(--gold); opacity:1; background:rgba(201,168,76,0.05); }
 
 #autoret { background:var(--section-bg); }
-.authors-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2rem; margin-top:3.5rem; }
+.authors-grid { display:flex; flex-direction:row; flex-wrap:nowrap; gap:2rem; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; padding:1rem 4rem 1.5rem; align-items:flex-start; margin-top:2rem; }
+.author-card { min-width:280px; max-width:280px; flex-shrink:0; }
 .author-card { background:var(--card-bg); border:1px solid var(--border); padding:2rem; transition:border-color 0.3s; }
 .author-card:hover { border-color:rgba(201,168,76,0.5); }
 .author-avatar { width:64px; height:64px; border-radius:50%; border:1px solid #000; display:flex; align-items:center; justify-content:center; margin-bottom:1.2rem; background:rgba(201,168,76,0.06); overflow:hidden; padding:0; }
@@ -178,13 +181,16 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
 </nav>
 
 <section class="hero" id="hero">
+  <img src="images/logo_fiorentia.png" alt="Fiorentia Logo"
+    style="position:absolute; left:calc(2% + 300px); top:50%; transform:translateY(-50%);
+    width:440px; opacity:0.92; mix-blend-mode:lighten; z-index:2; pointer-events:none;">
   <p class="hero-ornament">Shtëpia Botuese</p>
   <div class="hero-title-wrap" id="fioTitle" aria-label="FIORENTIA">
     <div class="scanner-line" id="scanLine"></div>
   </div>
   <p class="hero-sub">Verba volant — scripta manent</p>
   <div class="hero-divider"></div>
-  <p class="hero-tagline">Çdo libër është një dritare drejt botëve të reja</p>
+  <p class="hero-tagline"><span id="furraScan" style="position:relative;display:inline-block;">Në bashkëpunim të ngushtë me "Furra e Books"<div class="scanner-line" id="furraLine"></div></span></p>
   <div class="hero-cta">
     <a onclick="document.getElementById('katalog').scrollIntoView({behavior:'smooth'})" class="btn-gold">Shiko Katalogun</a>
     <a onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})" class="btn-outline">Na Kontaktoni</a>
@@ -227,7 +233,11 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
       <button class="filter-btn" onclick="filterBooks(this,'ese')">Ese</button>
     </div>
   </div>
-  <div id="books-grid"></div>
+  <div style="position:relative;">
+    <button id="arrowLeft" onclick="scrollBooks(-1)" style="position:absolute;left:0.5rem;top:36%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">«</button>
+    <div id="books-grid"></div>
+    <button id="arrowRight" onclick="scrollBooks(1)" style="position:absolute;right:0.5rem;top:36%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">»</button>
+  </div>
 </section>
 
 <section id="autoret">
@@ -235,7 +245,11 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
     <p class="section-label">Zërat tanë</p>
     <h2 class="section-title">Profili i Autorëve</h2>
     <div class="gold-line"></div>
+  </div>
+  <div style="position:relative;">
+    <button id="authorArrowLeft" onclick="scrollAuthors(-1)" style="position:absolute;left:0.5rem;top:36%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">«</button>
     <div class="authors-grid" id="authors-grid"></div>
+    <button id="authorArrowRight" onclick="scrollAuthors(1)" style="position:absolute;right:0.5rem;top:36%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">»</button>
   </div>
 </section>
 
@@ -369,10 +383,11 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
 const books = [
   { id:1, title:"Komedia Hyjnore", subtitle:"Kantiku I — Ferri", author:"Dante Alighieri", translator:"Përktheu & komentoi Meritan Spahija", price:2000, genre:"klasikë", cover:"images/covers/komedia-hyjnore-ferri.jpg", readUrl:"https://heyzine.com/flip-book/34e12c8c96.html", color1:"#0d0805", color2:"#1e1206", accent:"#c9a84c", desc:"Botuar në vitin 2018 si një vëllim voluminoz prej 906 faqesh me komente të thelluara, Ferri është kantiku i parë i Komedisë Hyjnore të Dante Alighierit. Rezultat i mbi 15 viteve pune shkencore dhe poetike, ky përkthim sjell universin dantesk me një aparat kritik të paprecedentë në gjuhën shqipe. Meritan Spahija udhëheq lexuesin nëpër nëntë rrethet e Ferrit me saktësinë e gjuhëtarit dhe ndjeshmërinë e poetit." },
   { id:2, title:"Komedia Hyjnore", subtitle:"Kantiku II — Purgatori", author:"Dante Alighieri", translator:"Përktheu & komentoi Meritan Spahija", price:0, genre:"klasikë", cover:"images/covers/komedia-hyjnore-purgatori.jpg", readUrl:"https://heyzine.com/flip-book/05a1a761e5.html", color1:"#0a0d10", color2:"#121820", accent:"#a0b8c8", desc:"Purgatori është kantiku i dytë i Komedisë Hyjnore të Dante Alighierit. Pas udhëtimit nëpër errësirën e Ferrit, Dante ngjitet nëpër shpatin e malit të Purgatorit, ku shpirtrat shpërblejnë mëkatet e tyre në pritje të shpëtimit. Ky vëllim, aktualisht në fazën e redaktimit final, vazhdon punën e jashtëzakonshme shkencore dhe poetike të Meritan Spahijës me aparatin e tij kritik të paprecedentë në gjuhën shqipe." },
+  { id:21, title:"Ferri — Komedia Hyjnore", subtitle:"Manual për shkollat e mesme", author:"Dante Alighieri", translator:"Hartoi tekstin dhe ilustroi me përkthimet dhe komentet e tija Meritan Spahija", price:-1, genre:"klasikë", cover:"images/covers/Ferri_manual.jpg", readUrl:"https://heyzine.com/flip-book/2c8d25f3eb.html", color1:"#1a1008", color2:"#2a1e0a", accent:"#c9a84c", desc:"Shtëpia Botuese \"ALBAS\". Ferri — Komedia Hyjnore, manual për nxënësit e shkollave të mesme. Përktheu, pajisi me komente dhe me shënime: Meritan Spahija." },
+  { id:20, title:"Luleshtrydhet", author:"Meritan Spahija", price:800, genre:"proza", cover:"images/covers/luleshtrydhet.jpg", readUrl:"https://heyzine.com/flip-book/7abc82268c.html", color1:"#1a1a14", color2:"#222018", accent:"#a0a888", desc:"Luleshtrydhet (2002) është vepra e parë prozaike e Meritan Spahijës, e pasur me nota autobiografike dhe një stil të veçantë tregimtar." },
+  { id:22, title:"Vegimet e një dite me shi", author:"Meritan Spahija", price:1200, genre:"roman", cover:"images/covers/vegimet_dite_shi.jpg", readUrl:"https://heyzine.com/flip-book/97a64f1e1c.html", color1:"#100808", color2:"#1a0e0e", accent:"#c87840", desc:"Vegimet e një dite me shi (2004) është roman i Meritan Spahijës, një vepër me stil të veçantë dhe atmosferë të dendur letrare." },
+  { id:23, title:"Vegimet e fundit", author:"Meritan Spahija", price:1000, genre:"proza", cover:"images/covers/vegimet_fundit.jpg", readUrl:"https://heyzine.com/flip-book/aada19c6a2.html", color1:"#0e0e0a", color2:"#181810", accent:"#d08040", desc:"Vegimet e fundit (2010) është vëllim tregimesh i Meritan Spahijës, me një stil të veçantë dhe reflektime të thella mbi jetën dhe njerëzit." },
   { id:3, title:"Monolog me veten", author:"Meritan Spahija", price:1000, genre:"proza", cover:"images/covers/monolog_me_veten.jpg", readUrl:"https://heyzine.com/flip-book/7da235a1b1.html", color1:"#100d08", color2:"#1e1810", accent:"#c9a84c", desc:"\"Monolog me veten\" (2016) është një vepër prozaike e Meritan Spahijës, e pasur me nota autobiografike dhe simbolikë. Një dialog i thellë i autorit me veten, me kohën dhe me universin e tij krijues." },
-  { id:4, title:"Vetimat e shuejnë inatin n'Bunë", author:"Rozafa Shpuza", price:800, genre:"poezi", cover:"images/covers/vetimat.jpg", readUrl:"https://heyzine.com/flip-book/7d85345e09.html", color1:"#1a0808", color2:"#2a1010", accent:"#e8c84c", desc:"Rozafa Shpuza lindi në Shkodër, qytetin që ka lanë gjurmë të pashlyeshme në krijimtarinë e saj. Asht poete, fotografe dhe kuratore. Arti i saj lëviz natyrshëm mes fjalës dhe imazhit, tue krijue nji univers të vetin shprehës. Asht autore e pesë librave: \"Kohë ikonash\", \"Anipse\", \"Grizhlat\", \"Nana i qindiste kryq dimnat\" dhe \"Vetimat e shuejnë inatin n'Bunë\". Poezitë e saj janë vlerësue me çmime kombëtare e ndërkombëtare. Ka ekspozue brenda dhe jashtë Shqipnisë dhe drejton galerinë \"ODA\" në Shkodër." },
-  { id:13, title:"Histori Shkodrane në Fotografi", author:"Pjetër Logoreci", price:3000, genre:"histori", cover:"images/covers/histori_shkodrane.jpg", readUrl:"https://heyzine.com/flip-book/c874deb62e.html", color1:"#0d0808", color2:"#180e0e", accent:"#c84040", desc:"Pamje të panjohuna ma parë, nga Arkiva Austriake, për Shkodren dhe Shqipninë. Një vepër e jashtëzakonshme dokumentare e Pjetër Logoreci, që sjell në dritë fotografi historike të pabotuara më parë." },
-  { id:5, title:"O sot o kurrë", author:"Pjetër Logoreci", price:1500, genre:"histori", cover:"images/covers/o_sot_o_kurre.jpg", readUrl:"https://heyzine.com/flip-book/abacb7d247.html", color1:"#0a0d10", color2:"#141a20", accent:"#8a9ab0", desc:"Vepër e Pjetër Logoreci mbi Dom Nikollë Kaçorrin, patriotin e madh të lëvizjes për pavarësi. Një rikthim i rëndësishëm në historinë kombëtare shqiptare, bazuar në hulumtime arkivore nga Vjena." },
   { id:12, title:"Enea iku i fundit", author:"Meritan Spahija", price:800, genre:"roman", cover:"images/covers/enea.jpg", readUrl:"https://heyzine.com/flip-book/29d5b3cf97.html", color1:"#1a1408", color2:"#251e0a", accent:"#c8a860", desc:"Enea iku i fundit është roman i Meritan Spahijës, një vepër e fuqishme e frymëzuar nga mitologjia antike dhe historia shqiptare." },
   { id:11, title:"Tristana", author:"Benito Peréz Galdós", translator:"Përktheu: Astrit Cani", price:1000, genre:"roman", cover:"images/covers/tristana.jpg", readUrl:"https://heyzine.com/flip-book/289ca6a95b.html", color1:"#100e08", color2:"#1a1810", accent:"#c8b080", desc:"Tristana është një nga romanet më të njohura të Benito Peréz Galdósit, shkrimtarit të madh spanjoll. Historia e një gruaje të re të bllokuar nga konventat shoqërore, në kërkim të lirisë dhe identitetit të saj. Sjellë në gjuhën shqipe nga Astrit Cani." },
   { id:16, title:"Shoqëria e Spektaklit", author:"Guy Debord", translator:"Përktheu: Astrit Cani", collection:"Koleksioni \"Furra e Books\" 6", price:1000, genre:"ese", cover:"images/covers/shoqeria.jpg", readUrl:"https://heyzine.com/flip-book/7e8b22369f.html", color1:"#050508", color2:"#0a0a10", accent:"#9090d0", desc:"Shoqëria e Spektaklit është vepra kryesore e Guy Debord, filozofit dhe teoricienit francez, botuar në 1967. Një kritikë radikale e shoqërisë kapitaliste moderne dhe kulturës së imazhit. Sjellë në gjuhën shqipe nga Astrit Cani." },
@@ -383,13 +398,21 @@ const books = [
   { id:7, title:"Punëtorët e detit", author:"Victor Hugo", translator:"Përktheu: Astrit Cani", collection:"Koleksioni \"Furra e Books\" 3", price:1600, genre:"klasikë", cover:"images/covers/punetoret_detit.jpg", readUrl:"https://heyzine.com/flip-book/acf9ae19e0.html", color1:"#080c10", color2:"#0f1820", accent:"#8ab0c8", desc:"Punëtorët e detit është një nga romanet e mëdha të Victor Hugos, botuar në vitin 1866. Një histori e fuqishme mbi betejën e njeriut me natyrën dhe forcën e detit, të sjellë në gjuhën shqipe nga Astrit Cani." },
   { id:9, title:"Libri i Shqetësimit", author:"Fernando Pessoa", translator:"Përktheu: Astrit Cani", collection:"Koleksioni \"Furra e Books\" 7", price:1500, genre:"proza", cover:"images/covers/libri_shqetesimit.jpg", readUrl:"https://heyzine.com/flip-book/5ba064c051.html", color1:"#080c12", color2:"#0d1520", accent:"#8ab0d0", desc:"Libri i Shqetësimit është kryevepra e Fernando Pessoës, shkruar nën pseudonimin Bernardo Soares. Një ditar metafizik dhe poetik, meditim mbi vetësinë, ëndrrën dhe ndjenjen e humbjes në labirintin e jetës moderne. Sjellë në gjuhën shqipe nga Astrit Cani." },
   { id:6, title:"Kopshti i Murosun", author:"Astrit Cani", collection:"Koleksioni \"Furra e Books\" 4", price:700, genre:"proza", cover:"images/covers/kopshti.jpg", readUrl:"https://heyzine.com/flip-book/e3d039d047.html", color1:"#0a0f08", color2:"#111a0e", accent:"#a8c890", desc:"\"Kopshti i Murosun\" është vepër prozaike e Astrit Canit, një nga zërat e veçantë të letërsisë bashkëkohore shqipe." },
+  { id:4, title:"Vetimat e shuejnë inatin n'Bunë", author:"Rozafa Shpuza", price:800, genre:"poezi", cover:"images/covers/vetimat.jpg", readUrl:"https://heyzine.com/flip-book/7d85345e09.html", color1:"#1a0808", color2:"#2a1010", accent:"#e8c84c", desc:"Rozafa Shpuza lindi në Shkodër, qytetin që ka lanë gjurmë të pashlyeshme në krijimtarinë e saj. Asht poete, fotografe dhe kuratore. Arti i saj lëviz natyrshëm mes fjalës dhe imazhit, tue krijue nji univers të vetin shprehës. Asht autore e pesë librave: \"Kohë ikonash\", \"Anipse\", \"Grizhlat\", \"Nana i qindiste kryq dimnat\" dhe \"Vetimat e shuejnë inatin n'Bunë\". Poezitë e saj janë vlerësue me çmime kombëtare e ndërkombëtare. Ka ekspozue brenda dhe jashtë Shqipnisë dhe drejton galerinë \"ODA\" në Shkodër." },
+  { id:13, title:"Histori Shkodrane në Fotografi", author:"Pjetër Logoreci", price:3000, genre:"histori", cover:"images/covers/histori_shkodrane.jpg", readUrl:"https://heyzine.com/flip-book/c874deb62e.html", color1:"#0d0808", color2:"#180e0e", accent:"#c84040", desc:"Pamje të panjohuna ma parë, nga Arkiva Austriake, për Shkodren dhe Shqipninë. Një vepër e jashtëzakonshme dokumentare e Pjetër Logoreci, që sjell në dritë fotografi historike të pabotuara më parë." },
+  { id:5, title:"O sot o kurrë", author:"Pjetër Logoreci", price:1500, genre:"histori", cover:"images/covers/o_sot_o_kurre.jpg", readUrl:"https://heyzine.com/flip-book/abacb7d247.html", color1:"#0a0d10", color2:"#141a20", accent:"#8a9ab0", desc:"Vepër e Pjetër Logoreci mbi Dom Nikollë Kaçorrin, patriotin e madh të lëvizjes për pavarësi. Një rikthim i rëndësishëm në historinë kombëtare shqiptare, bazuar në hulumtime arkivore nga Vjena." },
+  { id:17, title:"Mes dhimbjes dhe shpresës", author:"Aurora Guska", price:1500, genre:"proza", cover:"images/covers/mes_dhimbjes.jpg", readUrl:"https://heyzine.com/flip-book/5b78e575c6.html", color1:"#081418", color2:"#0d1e24", accent:"#60a8b8", desc:"Avokate dhe ish-sekretare gjyqësore me mbi 37 vite përvojë në sistemin e drejtësisë. Ka mbrojtur dhjetëra raste të të miturve, grave në nevojë dhe qytetarëve të pambrojtur. Ky libër është një udhëtim mes drejtësisë dhe humanizmit, mes lotëve dhe buzëqeshjeve, ku secila faqe mban brenda një jetë të jetuar dhe një betejë të fituar." },
+  { id:18, title:"Ritmim", author:"Rubjana Nika", price:700, genre:"poezi", cover:"images/covers/rikthim.jpg", readUrl:"https://heyzine.com/flip-book/1793983d74.html", color1:"#080c14", color2:"#0d1220", accent:"#c8a830", desc:"Ritmim është vëllim poetik i Rubjana Nikës, një zë i veçantë i poezisë shqipe bashkëkohore." },
+  { id:19, title:"Thirrje gjaku", author:"Rubjana Nika", price:700, genre:"poezi", cover:"images/covers/thirrje.jpg", readUrl:"https://heyzine.com/flip-book/131e883070.html", color1:"#1a0808", color2:"#2a1005", accent:"#e8a030", desc:"Thirrje gjaku është vëllim poetik i Rubjana Nikës." },
 ];
 
 const authors = [
   { initials:"MS", photo:"images/meritan.jpg", name:"Meritan Spahija", genre:"Gjuhëtar · Autor · Përkthyes · Botues", bio:"Meritan Spahija (l. 1967, Shkodër) është gjuhëtar, autor dhe botues me një kontribut të spikatur në letërsinë shqipe dhe përkthimin e kryeveprave botërore. U diplomua si mësues në Universitetin \"Luigj Gurakuqi\" (1990) dhe mban gradën Master Shkencor në Studime të thelluara në Gjuhësi (2014). Njeh shkëlqyeshëm italishten, anglishten dhe frëngjishten.", details:[ { label:"Krijimtaria letrare", text:"Prozë dhe tregime: \"Luleshtrydhet\" (2002), \"Vegimet e një dite me shi\" (2004), \"Alegoria e një historie të vërtetë\" (2007), \"Vegimet e fundit\" (2010), \"Monolog me veten\" (2016), \"Enea iku i fundit\" (2017)." }, { label:"Projekti i jetës — Dante Alighieri", text:"Për mbi 15 vite ka punuar për përkthimin dhe komentimin e Komedisë Hyjnore me aparat kritik të paprecedentë në gjuhën shqipe." }, { label:"Ferri", text:"Botuar në 2018 — vëllim prej 906 faqesh me komente të thelluara." }, { label:"Ferri — manual", text:"Botuar nga shtëpia botuese Albas (2023) për nxënësit e shkollave të mesme." }, { label:"Purgatori", text:"Aktualisht në fazën e redaktimit final." }, { label:"Parajsa", text:"Në proces të vijueshëm përkthimi dhe komentimi." }, { label:"Viktor Hugo", text:"Ka sjellë në shqip pjesë të censuruara të romanit \"Të mjerët\" (1997)." } ], books:"Themelues i Shtëpisë Botuese Fiorentia (2012)" },
-  { initials:"AC", photo:"images/astriti.jpg", name:"Astrit Cani", genre:"Poet · Përkthyes · Studiues", bio:"Astrit Cani është një figurë e rëndësishme e letërsisë bashkëkohore shqipe, i njohur si poet, përkthyes dhe studiues i imtë i teksteve letrare e filozofike. I lindur në Shkodër, formimi i tij intelektual dhe krijimtaria mbajnë vulën e një kërkimi estetik të pandërprerë dhe një elegance gjuhësore të veçantë. Poezia e Canit dallohet për një densitet lirik dhe një përdorim mjeshtëror të gjuhës. Si përkthyes, ka sjellë në shqip autorë me peshë të madhe botërore, duke u përqendruar kryesisht në letërsinë dhe filozofinë gjermane, frënge e italiane. Si studiues, Cani ka kontribuar me ese dhe kritika që shkojnë përtej analizës sipërfaqësore, duke prekur hermeneutikën, marrëdhënien mes gjuhës dhe qenies, si dhe zbërthimin e strukturave poetike. Me \"Furrën e Books\" tashmë ai është një protagonist i letërsisë së kohëve të sotme dhe një bashkëpunëtor i ngushtë i Shtëpisë Botuese Fiorentia.", details:[ { label:"Furra e Books", text:"Themelues i librarisë prestigjioze \"Furra e Books\" me qendër në Shkodër dhe degë të saj shumë të rëndësishme në Milano." } ], books:"8 tituj në Fiorentia" },
-  { initials:"RS", photo:"images/rozafa.jpg", name:"Rozafa Shpuza", genre:"Poete · Fotografe · Kuratore", bio:"Rozafa Shpuza lindi në Shkodër, qytetin që ka lanë gjurmë të pashlyeshme në krijimtarinë e saj. Arti i saj lëviz natyrshëm mes fjalës dhe imazhit, tue krijue nji univers të vetin shprehës. Autore e pesë librave poetike, poezitë e saj janë vlerësue me çmime kombëtare e ndërkombëtare. Prej vitesh drejton galerinë \"ODA\" në Shkodër.", books:"2 tituj në Fiorentia" },
+  { initials:"AC", photo:"images/astriti.jpg", name:"Astrit Cani", genre:"Poet · Përkthyes · Studiues", bio:"Astrit Cani është një figurë e rëndësishme e letërsisë bashkëkohore shqipe, i njohur si poet, përkthyes dhe studiues i imtë i teksteve letrare e filozofike. I lindur në Shkodër, formimi i tij intelektual dhe krijimtaria mbajnë vulën e një kërkimi estetik të pandërprerë dhe një elegance gjuhësore të veçantë. Poezia e Canit dallohet për një densitet lirik dhe një përdorim mjeshtëror të gjuhës. Si përkthyes, ka sjellë në shqip autorë me peshë të madhe botërore, duke u përqendruar kryesisht në letërsinë dhe filozofinë gjermane, frënge e italiane. Si studiues, Cani ka kontribuar me ese dhe kritika që shkojnë përtej analizës sipërfaqësore, duke prekur hermeneutikën, marrëdhënien mes gjuhës dhe qenies, si dhe zbërthimin e strukturave poetike. Me \"Furrën e Books\" tashmë ai është një protagonist i letërsisë së kohëve të sotme dhe një bashkëpunëtor i ngushtë i Shtëpisë Botuese Fiorentia.", details:[ { label:"Furra e Books", text:"Themelues i librarisë prestigjioze \"Furra e Books\" me qendër në Shkodër dhe degë të saj shumë të rëndësishme në Milano." } ], books:"9 tituj në Fiorentia" },
+  { initials:"RS", photo:"images/rozafa.jpg", name:"Rozafa Shpuza", genre:"Poete · Fotografe · Kuratore", bio:"Rozafa Shpuza lindi në Shkodër, qytetin që ka lanë gjurmë të pashlyeshme në krijimtarinë e saj. Arti i saj lëviz natyrshëm mes fjalës dhe imazhit, tue krijue nji univers të vetin shprehës. Autore e pesë librave poetike, poezitë e saj janë vlerësue me çmime kombëtare e ndërkombëtare. Prej vitesh drejton galerinë \"ODA\" në Shkodër.", books:"1 titull në Fiorentia" },
   { initials:"PL", photo:"images/pjetri.jpg", name:"Pjetër Logoreci", genre:"Studiues · Publicist · Ambasador i Paqes", bio:"Pjetër Logoreci leu në Shkodër në familjen qytetare e atdhetare Logoreci. Kreu studimet në shkencat juridike në Universitetin e Shkodres \"Luigj Gurakuqi\". Pas vitit 1997, për arsye politike u largue në Austri ku jeton dhe sot. Veprimtar aktiv për liri e demokraci. Mori pjesë në grevën kombëtare të urisë për të drejtat e të burgosurve politik. Si studiues, merret me figurat kombëtare shqiptare në arkivat e Austrisë. Asht AMBASADOR I PAQES, gëzon MIRËNJOHJA E LURËS dhe «Mirënjohja e Presidentit» Alfred Moisiu. Ka pregaditë e botue dy libra dhe nji album me fotografi.", books:"2 tituj në Fiorentia" },
+  { initials:"RN", photo:"images/rubjana.jpg", name:"Rubjana Nika", genre:"Poete · Mësuese", bio:"Ka lindur në vitin 1968 në Burrel, ku kaloi fëmijërinë, rininë e më tej. Ka studiuar për Gjuhë-Letërsi dhe ka ushtruar profesionin si mësuese e Gjuhës dhe e Letërsisë në disa shkolla të rrethit Mat. Që në vitin 2018 vazhdon profesionin e mësuesisë pranë shkollës 9-vjeçare \"M. Gjestila\", në profilin e mësueses ndihmëse, pasi mbaroi masterin për Arsim Special. Është autore e 3 vëllimeve poetike: \"Copëza jete\", \"Detaje realiteti\", \"Vargu frymon vendlindjes sime\".", books:"2 tituj në Fiorentia" },
+  { initials:"AG", photo:"images/aurora.jpg", name:"Aurora Guska", genre:"Avokate · Shkrimtare", bio:"Avokate dhe ish-sekretare gjyqësore me mbi 37 vite përvojë në sistemin e drejtësisë. Ka mbrojtur dhjetëra raste të të miturve në konflikt me ligjin, grave në nevojë dhe qytetarëve të pambrojtur, duke dhënë shpesh ndihmë juridike pro bono. Në vitin 2010 botoi librin \"Një jetë si punonjëse e Gjykatës Kukës\". Me origjinë nga Vlora, jeta e solli në Kukës ku ndërtoi familjen dhe fitoi besimin e komunitetit, duke u zgjedhur dy herë rradhazi anëtare e Këshillit Bashkiak të Kukësit. Kukësi, qytet i nominuar për Çmimin Nobel për Paqen, është bërë pjesë e shpirtit të saj.", books:"1 titull në Fiorentia" },
 ];
 
 let cart = 0;
@@ -397,7 +420,8 @@ let activeFilter = 'all';
 
 function renderBooks() {
   const grid = document.getElementById('books-grid');
-  grid.style.cssText = 'display:flex;flex-direction:row;flex-wrap:nowrap;gap:2.5rem;overflow-x:auto;padding:2rem 4rem 1.5rem;align-items:flex-start;';
+  grid.style.cssText = 'display:flex;flex-direction:row;flex-wrap:nowrap;gap:2.5rem;overflow-x:auto;padding:2rem 4rem 1.5rem;align-items:flex-start;scrollbar-width:none;-ms-overflow-style:none;';
+  grid.style.setProperty('--webkit-scrollbar', 'none');
   const filtered = activeFilter === 'all' ? books : books.filter(b => b.genre === activeFilter);
   grid.innerHTML = filtered.map(b => `
     <div onclick="openModal(${b.id})" style="width:200px;min-width:200px;max-width:200px;flex-shrink:0;cursor:pointer;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
@@ -409,7 +433,7 @@ function renderBooks() {
         <div style="font-size:0.68rem;letter-spacing:0.1em;color:#c9a84c;opacity:0.75;margin-bottom:0.4rem;">${b.author}</div>
         ${b.translator?`<div style="font-size:0.65rem;color:#8a7f6e;margin-bottom:0.2rem;font-style:italic;">${b.translator}</div>`:''}
         ${b.collection?`<div style="font-size:0.62rem;color:#c9a84c;opacity:0.7;margin-bottom:0.4rem;letter-spacing:0.05em;">${b.collection}</div>`:''}
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#c9a84c;">${b.price>0?b.price.toLocaleString()+' Lekë':'Çmimi — së shpejti'}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#c9a84c;">${b.price>0?b.price.toLocaleString()+' Lekë':b.price===-1?'Të drejtat e botimit dhe të shpërndarjes ALBAS':'Çmimi — së shpejti'}</div>
       </div>
     </div>`).join('');
 }
@@ -443,8 +467,19 @@ function openModal(id) {
   document.getElementById('modalCollection').textContent = b.collection||'';
   document.getElementById('modalCollection').style.display = b.collection?'block':'none';
   document.getElementById('modalDesc').textContent = b.desc||'';
-  document.getElementById('modalPrice').textContent = b.price>0?b.price.toLocaleString()+' Lekë':'Çmimi — së shpejti';
+  const priceEl = document.getElementById('modalPrice');
+  if (b.price > 0) {
+    priceEl.textContent = b.price.toLocaleString() + ' Lekë';
+    priceEl.style.fontSize = '1.4rem';
+  } else if (b.price === -1) {
+    priceEl.textContent = 'Të drejtat e botimit dhe të shpërndarjes ALBAS';
+    priceEl.style.fontSize = '0.8rem';
+  } else {
+    priceEl.textContent = 'Çmimi — së shpejti';
+    priceEl.style.fontSize = '1.4rem';
+  }
   document.getElementById('modalAdd').onclick = () => addToCart(b.title);
+  document.getElementById('modalAdd').style.display = b.price===-1?'none':'inline-block';
   document.getElementById('modalOrderBtn').style.display = b.price>0?'inline-block':'none';
   document.getElementById('orderForm').style.display = 'none';
   document.getElementById('orderSuccess').style.display = 'none';
@@ -501,8 +536,91 @@ function submitForm(e) {
   e.preventDefault(); showToast('Mesazhi juaj u dërgua me sukses!'); e.target.reset();
 }
 
+function scrollBooks(dir) {
+  const grid = document.getElementById('books-grid');
+  grid.scrollBy({ left: dir * 450, behavior: 'smooth' });
+}
+
+function updateArrows() {
+  const grid = document.getElementById('books-grid');
+  const left = document.getElementById('arrowLeft');
+  const right = document.getElementById('arrowRight');
+  if (!grid || !left || !right) return;
+  left.style.display = grid.scrollLeft > 10 ? 'flex' : 'none';
+  right.style.display = grid.scrollLeft < grid.scrollWidth - grid.clientWidth - 10 ? 'flex' : 'none';
+}
+
+function scrollAuthors(dir) {
+  const grid = document.getElementById('authors-grid');
+  grid.scrollBy({ left: dir * 450, behavior: 'smooth' });
+}
+
+function updateAuthorArrows() {
+  const grid = document.getElementById('authors-grid');
+  const left = document.getElementById('authorArrowLeft');
+  const right = document.getElementById('authorArrowRight');
+  if (!grid || !left || !right) return;
+  left.style.display = grid.scrollLeft > 10 ? 'flex' : 'none';
+  right.style.display = grid.scrollLeft < grid.scrollWidth - grid.clientWidth - 10 ? 'flex' : 'none';
+}
+
 renderBooks();
 renderAuthors();
+
+// Setup arrows after render
+setTimeout(() => {
+  const bGrid = document.getElementById('books-grid');
+  if (bGrid) { bGrid.addEventListener('scroll', updateArrows); updateArrows(); }
+  const aGrid = document.getElementById('authors-grid');
+  if (aGrid) { aGrid.addEventListener('scroll', updateAuthorArrows); updateAuthorArrows(); }
+}, 100);
+
+  // Second scanner — Furra e Books tagline, synced, no audio, no visible line
+  const furraWrap = document.getElementById('furraScan');
+  const furraLine = document.getElementById('furraLine');
+  const furraSpans = [];
+  if (furraWrap) {
+    const text = 'Në bashkëpunim të ngushtë me "Furra e Books"';
+    furraWrap.innerHTML = '';
+    text.split('').forEach(ch => {
+      const s = document.createElement('span');
+      s.className = 'fgl';
+      s.textContent = ch;
+      furraWrap.appendChild(s);
+      furraSpans.push(s);
+    });
+    furraWrap.appendChild(furraLine);
+  }
+
+  function runFurraScan() {
+    if (!furraWrap) return;
+    const wr = furraWrap.getBoundingClientRect();
+    const totalW = wr.width;
+    const duration = 1600; const pause = 15000;
+    let start = null;
+
+    function frame(ts) {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      const x = p * totalW;
+      furraSpans.forEach(s => {
+        const r = s.getBoundingClientRect();
+        const center = r.left - wr.left + r.width / 2;
+        const dist = Math.abs(x - center);
+        const radius = r.width * 1.2;
+        if (dist < radius) { s.classList.add('under'); }
+        else if (x > center + radius) { s.classList.remove('under'); }
+      });
+      if (p < 1) { requestAnimationFrame(frame); }
+      else {
+        furraSpans.forEach(s => s.classList.remove('under'));
+        setTimeout(runFurraScan, pause);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  setTimeout(runFurraScan, 1800);
 
 (function(){
   const word = 'FIORENTIA';
