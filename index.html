@@ -181,8 +181,8 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
 </nav>
 
 <section class="hero" id="hero">
-  <img src="images/logo_fiorentia.png" alt="Fiorentia Logo" style="position:absolute; left:calc(2% + 100px); top:50%; transform:translateY(-50%) translateY(150px); width:340px; opacity:0.92; mix-blend-mode:lighten; z-index:2; pointer-events:none;">
-  <img src="images/logo_furra.png" alt="Furra eBooks" id="furraLogo" style="position:absolute; right:calc(2% + 280px); top:50%; transform:translateY(-50%) translateY(250px); width:140px; opacity:0.85; mix-blend-mode:lighten; z-index:2; pointer-events:none;">
+  <img src="images/logo_fiorentia.png" alt="Fiorentia Logo" style="position:absolute; left:calc(2% + 100px); top:50%; transform:translateY(-50%) translateY(150px); width:340px; opacity:0.92; mix-blend-mode:lighten; z-index:2; pointer-events:all; transition:transform 0.4s ease, filter 0.4s ease; cursor:default;" onmouseover="this.style.transform='translateY(-50%) translateY(150px) scale(1.08)';this.style.filter='brightness(1.5)'" onmouseout="this.style.transform='translateY(-50%) translateY(150px) scale(1)';this.style.filter='brightness(1)'">
+  <img src="images/logo_furra.png" alt="Furra eBooks" id="furraLogo" style="position:absolute; right:calc(2% + 280px); top:50%; transform:translateY(-50%) translateY(250px); width:140px; opacity:0.85; mix-blend-mode:lighten; z-index:2; pointer-events:all; transition:transform 0.4s ease, filter 0.4s ease, opacity 0.4s ease; cursor:default;">
   <p class="hero-ornament">Shtëpia Botuese</p>
   <div class="hero-title-wrap" id="fioTitle" aria-label="FIORENTIA">
     <div class="scanner-line" id="scanLine"></div>
@@ -629,7 +629,12 @@ setTimeout(() => {
     const btnRect = btn.getBoundingClientRect();
     const heroRect = hero.getBoundingClientRect();
     logo.style.top = (btnRect.top - heroRect.top + btnRect.height/2) + 'px';
+    logo.setAttribute('data-base-transform', 'translateY(-50%)');
     logo.style.transform = 'translateY(-50%)';
+    logo.onmouseover = function(){ this.style.transform='translateY(-50%) scale(1.1)'; this.style.filter='brightness(1.6)'; this.style.opacity='1'; };
+    logo.onmouseout = function(){ this.style.transform='translateY(-50%) scale(1)'; this.style.filter='brightness(1)'; this.style.opacity='0.85'; };
+    logo.onmouseover = function(){ this.style.transform='translateY(-50%) scale(1.1)'; this.style.filter='brightness(1.6)'; this.style.opacity='1'; };
+    logo.onmouseout = function(){ this.style.transform='translateY(-50%) scale(1)'; this.style.filter='brightness(1)'; this.style.opacity='0.85'; };
   }
 }, 200);
 
@@ -699,34 +704,11 @@ setTimeout(() => {
     wrap.appendChild(s); spans.push(s);
   });
 
-  let audioCtx = null;
-  let heroVisible = false;
-  const obs = new IntersectionObserver(entries => { heroVisible = entries[0].isIntersecting; }, {threshold:0.3});
-  obs.observe(document.getElementById('hero'));
-
-  function playScanSound(dur) {
-    if (!heroVisible) return;
-    try {
-      if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-      const ctx = audioCtx; const t = dur/1000;
-      const osc = ctx.createOscillator(); const gain = ctx.createGain(); const filt = ctx.createBiquadFilter();
-      osc.type='sawtooth'; osc.frequency.setValueAtTime(2400,ctx.currentTime);
-      osc.frequency.linearRampToValueAtTime(600,ctx.currentTime+t);
-      filt.type='highpass'; filt.frequency.value=1800; filt.Q.value=8;
-      gain.gain.setValueAtTime(0,ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.025,ctx.currentTime+0.04);
-      gain.gain.linearRampToValueAtTime(0,ctx.currentTime+t);
-      osc.connect(filt); filt.connect(gain); gain.connect(ctx.destination);
-      osc.start(ctx.currentTime); osc.stop(ctx.currentTime+t);
-    } catch(e) {}
-  }
-
   function runScan() {
     const wr = wrap.getBoundingClientRect();
     const totalW = wr.width; const duration = 1600; const pause = 15000;
     let start = null;
     line.style.opacity = '1';
-    playScanSound(duration);
     function frame(ts) {
       if (!start) start = ts;
       const p = Math.min((ts-start)/duration, 1);
