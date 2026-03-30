@@ -184,6 +184,9 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
   <img src="images/logo_fiorentia.png" alt="Fiorentia Logo"
     style="position:absolute; left:calc(2% + 100px); top:50%; transform:translateY(-50%) translateY(150px);
     width:340px; opacity:0.92; mix-blend-mode:lighten; z-index:2; pointer-events:none;">
+  <img src="images/logo_furra.png" alt="Furra eBooks"
+    style="position:absolute; right:calc(2% + 280px); top:50%; transform:translateY(-50%) translateY(250px);
+    width:140px; opacity:0.85; mix-blend-mode:lighten; z-index:2; pointer-events:none;" id="furraLogo">
   <p class="hero-ornament">Shtëpia Botuese</p>
   <div class="hero-title-wrap" id="fioTitle" aria-label="FIORENTIA">
     <div class="scanner-line" id="scanLine"></div>
@@ -623,6 +626,20 @@ window.addEventListener('resize', setupArrows);
   }
 
   setTimeout(runFurraScan, 1800);
+
+// Align Furra logo with Na Kontaktoni button
+setTimeout(() => {
+  const btn = document.querySelector('.btn-outline');
+  const logo = document.getElementById('furraLogo');
+  const hero = document.getElementById('hero');
+  if (btn && logo && hero) {
+    const btnRect = btn.getBoundingClientRect();
+    const heroRect = hero.getBoundingClientRect();
+    const btnCenterY = btnRect.top - heroRect.top + btnRect.height / 2;
+    logo.style.top = btnCenterY + 'px';
+    logo.style.transform = 'translateY(-50%)';
+  }
+}, 200);
 
 (function(){
   const word = 'FIORENTIA';
