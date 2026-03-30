@@ -247,9 +247,9 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
     <div class="gold-line"></div>
   </div>
   <div style="position:relative;">
-    <button id="authorArrowLeft" onclick="scrollAuthors(-1)" style="position:absolute;left:0.5rem;top:36%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">«</button>
+    <button id="authorArrowLeft" onclick="scrollAuthors(-1)" style="position:absolute;left:0.5rem;top:12%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">«</button>
     <div class="authors-grid" id="authors-grid"></div>
-    <button id="authorArrowRight" onclick="scrollAuthors(1)" style="position:absolute;right:0.5rem;top:36%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">»</button>
+    <button id="authorArrowRight" onclick="scrollAuthors(1)" style="position:absolute;right:0.5rem;top:12%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">»</button>
   </div>
 </section>
 
@@ -452,7 +452,7 @@ function renderAuthors() {
 
 function filterBooks(btn, genre) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active'); activeFilter = genre; renderBooks();
+  btn.classList.add('active'); activeFilter = genre; renderBooks(); setTimeout(updateArrows, 100);
 }
 
 function openModal(id) {
@@ -568,12 +568,14 @@ renderBooks();
 renderAuthors();
 
 // Setup arrows after render
-setTimeout(() => {
+function setupArrows() {
   const bGrid = document.getElementById('books-grid');
   if (bGrid) { bGrid.addEventListener('scroll', updateArrows); updateArrows(); }
   const aGrid = document.getElementById('authors-grid');
   if (aGrid) { aGrid.addEventListener('scroll', updateAuthorArrows); updateAuthorArrows(); }
-}, 100);
+}
+setTimeout(setupArrows, 300);
+window.addEventListener('resize', setupArrows);
 
   // Second scanner — Furra e Books tagline, synced, no audio, no visible line
   const furraWrap = document.getElementById('furraScan');
@@ -633,34 +635,11 @@ setTimeout(() => {
     wrap.appendChild(s); spans.push(s);
   });
 
-  let audioCtx = null;
-  let heroVisible = false;
-  const obs = new IntersectionObserver(entries => { heroVisible = entries[0].isIntersecting; }, {threshold:0.3});
-  obs.observe(document.getElementById('hero'));
-
-  function playScanSound(dur) {
-    if (!heroVisible) return;
-    try {
-      if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-      const ctx = audioCtx; const t = dur/1000;
-      const osc = ctx.createOscillator(); const gain = ctx.createGain(); const filt = ctx.createBiquadFilter();
-      osc.type='sawtooth'; osc.frequency.setValueAtTime(2400,ctx.currentTime);
-      osc.frequency.linearRampToValueAtTime(600,ctx.currentTime+t);
-      filt.type='highpass'; filt.frequency.value=1800; filt.Q.value=8;
-      gain.gain.setValueAtTime(0,ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.025,ctx.currentTime+0.04);
-      gain.gain.linearRampToValueAtTime(0,ctx.currentTime+t);
-      osc.connect(filt); filt.connect(gain); gain.connect(ctx.destination);
-      osc.start(ctx.currentTime); osc.stop(ctx.currentTime+t);
-    } catch(e) {}
-  }
-
   function runScan() {
     const wr = wrap.getBoundingClientRect();
     const totalW = wr.width; const duration = 1600; const pause = 15000;
     let start = null;
     line.style.opacity = '1';
-    playScanSound(duration);
     function frame(ts) {
       if (!start) start = ts;
       const p = Math.min((ts-start)/duration, 1);
