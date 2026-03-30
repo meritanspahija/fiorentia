@@ -181,12 +181,8 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
 </nav>
 
 <section class="hero" id="hero">
-  <img src="images/logo_fiorentia.png" alt="Fiorentia Logo"
-    style="position:absolute; left:calc(2% + 100px); top:50%; transform:translateY(-50%) translateY(150px);
-    width:340px; opacity:0.92; mix-blend-mode:lighten; z-index:2; pointer-events:none;">
-  <img src="images/logo_furra.png" alt="Furra eBooks"
-    style="position:absolute; right:calc(2% + 280px); top:50%; transform:translateY(-50%) translateY(250px);
-    width:140px; opacity:0.85; mix-blend-mode:lighten; z-index:2; pointer-events:none;" id="furraLogo">
+  <img src="images/logo_fiorentia.png" alt="Fiorentia Logo" style="position:absolute; left:calc(2% + 100px); top:50%; transform:translateY(-50%) translateY(150px); width:340px; opacity:0.92; mix-blend-mode:lighten; z-index:2; pointer-events:none;">
+  <img src="images/logo_furra.png" alt="Furra eBooks" id="furraLogo" style="position:absolute; right:calc(2% + 280px); top:50%; transform:translateY(-50%) translateY(250px); width:140px; opacity:0.85; mix-blend-mode:lighten; z-index:2; pointer-events:none;">
   <p class="hero-ornament">Shtëpia Botuese</p>
   <div class="hero-title-wrap" id="fioTitle" aria-label="FIORENTIA">
     <div class="scanner-line" id="scanLine"></div>
@@ -234,6 +230,7 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
       <button class="filter-btn" onclick="filterBooks(this,'roman')">Roman</button>
       <button class="filter-btn" onclick="filterBooks(this,'histori')">Histori</button>
       <button class="filter-btn" onclick="filterBooks(this,'ese')">Ese</button>
+      <button class="filter-btn" onclick="filterBooks(this,'reviste')">Revistë letrare</button>
     </div>
   </div>
   <div style="position:relative;">
@@ -250,9 +247,9 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
     <div class="gold-line"></div>
   </div>
   <div style="position:relative;">
-    <button id="authorArrowLeft" onclick="scrollAuthors(-1)" style="position:absolute;left:0.5rem;top:12%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">«</button>
+    <button id="authorArrowLeft" onclick="scrollAuthors(-1)" style="position:absolute;left:0.5rem;top:36%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">«</button>
     <div class="authors-grid" id="authors-grid"></div>
-    <button id="authorArrowRight" onclick="scrollAuthors(1)" style="position:absolute;right:0.5rem;top:12%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">»</button>
+    <button id="authorArrowRight" onclick="scrollAuthors(1)" style="position:absolute;right:0.5rem;top:36%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:opacity 0.2s;line-height:1;">»</button>
   </div>
 </section>
 
@@ -358,14 +355,15 @@ footer { background:#080705; padding:3rem 2rem; text-align:center; border-top:1p
           <div style="font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;">Instruksionet e Transfertës Bankare</div>
           <div style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--parchment);opacity:0.75;line-height:1.8;">
             <div style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.8;margin-bottom:0.3rem;">Llogaria në Lekë</div>
-            Emri: <strong style="color:var(--parchment);opacity:1;">Meritan Spahija</strong><br>
-            Nr. Llogarie: <strong style="color:var(--parchment);opacity:1;">0000608878</strong><br>
-            IBAN: <strong style="color:var(--parchment);opacity:1;">AL50202510020000000000608878</strong><br>
+            Emri: <strong style="color:var(--parchment);opacity:1;" id="orderBankName">Meritan Spahija</strong><br>
+            Nr. Llogarie: <strong style="color:var(--parchment);opacity:1;" id="orderBankNr">0000608878</strong><br>
+            IBAN: <strong style="color:var(--parchment);opacity:1;" id="orderBankIban">AL50202510020000000000608878</strong><br>
+            <span id="orderSwiftRow" style="display:none;">SWIFT: <strong style="color:var(--parchment);opacity:1;" id="orderSwift">PUPPALTR</strong><br></span>
             Shuma: <strong style="color:var(--gold);" id="orderAmount"></strong><br>
             Arsyeja: <strong style="color:var(--parchment);opacity:1;" id="orderReason"></strong>
           </div>
-          <div style="height:1px;background:rgba(201,168,76,0.15);margin:0.8rem 0;"></div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--parchment);opacity:0.75;line-height:1.8;">
+          <div style="height:1px;background:rgba(201,168,76,0.15);margin:0.8rem 0;" id="euroDivider"></div>
+          <div id="euroSection" style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--parchment);opacity:0.75;line-height:1.8;">
             <div style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.8;margin-bottom:0.3rem;">Llogaria në Euro</div>
             Emri: <strong style="color:var(--parchment);opacity:1;">Meritan Spahija</strong><br>
             Nr. Llogarie: <strong style="color:var(--parchment);opacity:1;">0020608878</strong><br>
@@ -401,20 +399,24 @@ const books = [
   { id:7, title:"Punëtorët e detit", author:"Victor Hugo", translator:"Përktheu: Astrit Cani", collection:"Koleksioni \"Furra e Books\" 3", price:1600, genre:"klasikë", cover:"images/covers/punetoret_detit.jpg", readUrl:"https://heyzine.com/flip-book/acf9ae19e0.html", color1:"#080c10", color2:"#0f1820", accent:"#8ab0c8", desc:"Punëtorët e detit është një nga romanet e mëdha të Victor Hugos, botuar në vitin 1866. Një histori e fuqishme mbi betejën e njeriut me natyrën dhe forcën e detit, të sjellë në gjuhën shqipe nga Astrit Cani." },
   { id:9, title:"Libri i Shqetësimit", author:"Fernando Pessoa", translator:"Përktheu: Astrit Cani", collection:"Koleksioni \"Furra e Books\" 7", price:1500, genre:"proza", cover:"images/covers/libri_shqetesimit.jpg", readUrl:"https://heyzine.com/flip-book/5ba064c051.html", color1:"#080c12", color2:"#0d1520", accent:"#8ab0d0", desc:"Libri i Shqetësimit është kryevepra e Fernando Pessoës, shkruar nën pseudonimin Bernardo Soares. Një ditar metafizik dhe poetik, meditim mbi vetësinë, ëndrrën dhe ndjenjen e humbjes në labirintin e jetës moderne. Sjellë në gjuhën shqipe nga Astrit Cani." },
   { id:6, title:"Kopshti i Murosun", author:"Astrit Cani", collection:"Koleksioni \"Furra e Books\" 4", price:700, genre:"proza", cover:"images/covers/kopshti.jpg", readUrl:"https://heyzine.com/flip-book/e3d039d047.html", color1:"#0a0f08", color2:"#111a0e", accent:"#a8c890", desc:"\"Kopshti i Murosun\" është vepër prozaike e Astrit Canit, një nga zërat e veçantë të letërsisë bashkëkohore shqipe." },
-  { id:4, title:"Vetimat e shuejnë inatin n'Bunë", author:"Rozafa Shpuza", price:800, genre:"poezi", cover:"images/covers/vetimat.jpg", readUrl:"https://heyzine.com/flip-book/7d85345e09.html", color1:"#1a0808", color2:"#2a1010", accent:"#e8c84c", desc:"Rozafa Shpuza lindi në Shkodër, qytetin që ka lanë gjurmë të pashlyeshme në krijimtarinë e saj. Asht poete, fotografe dhe kuratore. Arti i saj lëviz natyrshëm mes fjalës dhe imazhit, tue krijue nji univers të vetin shprehës. Asht autore e pesë librave: \"Kohë ikonash\", \"Anipse\", \"Grizhlat\", \"Nana i qindiste kryq dimnat\" dhe \"Vetimat e shuejnë inatin n'Bunë\". Poezitë e saj janë vlerësue me çmime kombëtare e ndërkombëtare. Ka ekspozue brenda dhe jashtë Shqipnisë dhe drejton galerinë \"ODA\" në Shkodër." },
+  { id:26, title:"Djepi i përmallshëm", author:"Jasmina Kotrri", price:-2, genre:"poezi", cover:"images/covers/djepi.jpg", readUrl:"https://heyzine.com/flip-book/5d4a41580b.html", color1:"#0a0a0a", color2:"#141414", accent:"#c84040", desc:"Djepi i përmallshëm është vëllim poetik i Jasmina Kotrrit, botuar nga Shtëpia Botuese Fiorentia." },
+  { id:4, title:"Vetimat e shuejnë inatin n'Bunë", author:"Rozafa Shpuza", price:800, bank:"rozafa", genre:"poezi", cover:"images/covers/vetimat.jpg", readUrl:"https://heyzine.com/flip-book/7d85345e09.html", color1:"#1a0808", color2:"#2a1010", accent:"#e8c84c", desc:"Rozafa Shpuza lindi në Shkodër, qytetin që ka lanë gjurmë të pashlyeshme në krijimtarinë e saj. Asht poete, fotografe dhe kuratore. Arti i saj lëviz natyrshëm mes fjalës dhe imazhit, tue krijue nji univers të vetin shprehës. Asht autore e pesë librave: \"Kohë ikonash\", \"Anipse\", \"Grizhlat\", \"Nana i qindiste kryq dimnat\" dhe \"Vetimat e shuejnë inatin n'Bunë\". Poezitë e saj janë vlerësue me çmime kombëtare e ndërkombëtare. Ka ekspozue brenda dhe jashtë Shqipnisë dhe drejton galerinë \"ODA\" në Shkodër." },
   { id:13, title:"Histori Shkodrane në Fotografi", author:"Pjetër Logoreci", price:3000, genre:"histori", cover:"images/covers/histori_shkodrane.jpg", readUrl:"https://heyzine.com/flip-book/c874deb62e.html", color1:"#0d0808", color2:"#180e0e", accent:"#c84040", desc:"Pamje të panjohuna ma parë, nga Arkiva Austriake, për Shkodren dhe Shqipninë. Një vepër e jashtëzakonshme dokumentare e Pjetër Logoreci, që sjell në dritë fotografi historike të pabotuara më parë." },
   { id:5, title:"O sot o kurrë", author:"Pjetër Logoreci", price:1500, genre:"histori", cover:"images/covers/o_sot_o_kurre.jpg", readUrl:"https://heyzine.com/flip-book/abacb7d247.html", color1:"#0a0d10", color2:"#141a20", accent:"#8a9ab0", desc:"Vepër e Pjetër Logoreci mbi Dom Nikollë Kaçorrin, patriotin e madh të lëvizjes për pavarësi. Një rikthim i rëndësishëm në historinë kombëtare shqiptare, bazuar në hulumtime arkivore nga Vjena." },
   { id:17, title:"Mes dhimbjes dhe shpresës", author:"Aurora Guska", price:1500, genre:"proza", cover:"images/covers/mes_dhimbjes.jpg", readUrl:"https://heyzine.com/flip-book/5b78e575c6.html", color1:"#081418", color2:"#0d1e24", accent:"#60a8b8", desc:"Avokate dhe ish-sekretare gjyqësore me mbi 37 vite përvojë në sistemin e drejtësisë. Ka mbrojtur dhjetëra raste të të miturve, grave në nevojë dhe qytetarëve të pambrojtur. Ky libër është një udhëtim mes drejtësisë dhe humanizmit, mes lotëve dhe buzëqeshjeve, ku secila faqe mban brenda një jetë të jetuar dhe një betejë të fituar." },
-  { id:18, title:"Ritmim", author:"Rubjana Nika", price:700, genre:"poezi", cover:"images/covers/rikthim.jpg", readUrl:"https://heyzine.com/flip-book/1793983d74.html", color1:"#080c14", color2:"#0d1220", accent:"#c8a830", desc:"Ritmim është vëllim poetik i Rubjana Nikës, një zë i veçantë i poezisë shqipe bashkëkohore." },
-  { id:19, title:"Thirrje gjaku", author:"Rubjana Nika", price:700, genre:"poezi", cover:"images/covers/thirrje.jpg", readUrl:"https://heyzine.com/flip-book/131e883070.html", color1:"#1a0808", color2:"#2a1005", accent:"#e8a030", desc:"Thirrje gjaku është vëllim poetik i Rubjana Nikës." },
+  { id:18, title:"Ritmim", author:"Rubjana Nika", price:-2, genre:"poezi", cover:"images/covers/rikthim.jpg", readUrl:"https://heyzine.com/flip-book/1793983d74.html", color1:"#080c14", color2:"#0d1220", accent:"#c8a830", desc:"Ritmim është vëllim poetik i Rubjana Nikës, një zë i veçantë i poezisë shqipe bashkëkohore." },
+  { id:19, title:"Thirrje gjaku", author:"Rubjana Nika", price:-2, genre:"poezi", cover:"images/covers/thirrje.jpg", readUrl:"https://heyzine.com/flip-book/131e883070.html", color1:"#1a0808", color2:"#2a1005", accent:"#e8a030", desc:"Thirrje gjaku është vëllim poetik i Rubjana Nikës." },
+  { id:24, title:"Detaje Realiteti", author:"Rubjana Nika", price:-2, genre:"poezi", cover:"images/covers/detaje.jpg", readUrl:"https://heyzine.com/flip-book/fb62c83ed2.html", color1:"#0a1410", color2:"#101e18", accent:"#40a880", desc:"Detaje Realiteti është vëllim poetik i Rubjana Nikës." },
+  { id:25, title:"Vargu frymon në vendlindjen time", author:"Rubjana Nika", price:-2, genre:"poezi", cover:"images/covers/vargu.jpg", readUrl:"https://heyzine.com/flip-book/275f5c01c1.html", color1:"#1a0808", color2:"#2a1005", accent:"#c84040", desc:"Vargu frymon në vendlindjen time është vëllim poetik i Rubjana Nikës." },
 ];
 
 const authors = [
   { initials:"MS", photo:"images/meritan.jpg", name:"Meritan Spahija", genre:"Gjuhëtar · Autor · Përkthyes · Botues", bio:"Meritan Spahija (l. 1967, Shkodër) është gjuhëtar, autor dhe botues me një kontribut të spikatur në letërsinë shqipe dhe përkthimin e kryeveprave botërore. U diplomua si mësues në Universitetin \"Luigj Gurakuqi\" (1990) dhe mban gradën Master Shkencor në Studime të thelluara në Gjuhësi (2014). Njeh shkëlqyeshëm italishten, anglishten dhe frëngjishten.", details:[ { label:"Krijimtaria letrare", text:"Prozë dhe tregime: \"Luleshtrydhet\" (2002), \"Vegimet e një dite me shi\" (2004), \"Alegoria e një historie të vërtetë\" (2007), \"Vegimet e fundit\" (2010), \"Monolog me veten\" (2016), \"Enea iku i fundit\" (2017)." }, { label:"Projekti i jetës — Dante Alighieri", text:"Për mbi 15 vite ka punuar për përkthimin dhe komentimin e Komedisë Hyjnore me aparat kritik të paprecedentë në gjuhën shqipe." }, { label:"Ferri", text:"Botuar në 2018 — vëllim prej 906 faqesh me komente të thelluara." }, { label:"Ferri — manual", text:"Botuar nga shtëpia botuese Albas (2023) për nxënësit e shkollave të mesme." }, { label:"Purgatori", text:"Aktualisht në fazën e redaktimit final." }, { label:"Parajsa", text:"Në proces të vijueshëm përkthimi dhe komentimi." }, { label:"Viktor Hugo", text:"Ka sjellë në shqip pjesë të censuruara të romanit \"Të mjerët\" (1997)." } ], books:"Themelues i Shtëpisë Botuese Fiorentia (2012)" },
   { initials:"AC", photo:"images/astriti.jpg", name:"Astrit Cani", genre:"Poet · Përkthyes · Studiues", bio:"Astrit Cani është një figurë e rëndësishme e letërsisë bashkëkohore shqipe, i njohur si poet, përkthyes dhe studiues i imtë i teksteve letrare e filozofike. I lindur në Shkodër, formimi i tij intelektual dhe krijimtaria mbajnë vulën e një kërkimi estetik të pandërprerë dhe një elegance gjuhësore të veçantë. Poezia e Canit dallohet për një densitet lirik dhe një përdorim mjeshtëror të gjuhës. Si përkthyes, ka sjellë në shqip autorë me peshë të madhe botërore, duke u përqendruar kryesisht në letërsinë dhe filozofinë gjermane, frënge e italiane. Si studiues, Cani ka kontribuar me ese dhe kritika që shkojnë përtej analizës sipërfaqësore, duke prekur hermeneutikën, marrëdhënien mes gjuhës dhe qenies, si dhe zbërthimin e strukturave poetike. Me \"Furrën e Books\" tashmë ai është një protagonist i letërsisë së kohëve të sotme dhe një bashkëpunëtor i ngushtë i Shtëpisë Botuese Fiorentia.", details:[ { label:"Furra e Books", text:"Themelues i librarisë prestigjioze \"Furra e Books\" me qendër në Shkodër dhe degë të saj shumë të rëndësishme në Milano." } ], books:"9 tituj në Fiorentia" },
-  { initials:"RS", photo:"images/rozafa.jpg", name:"Rozafa Shpuza", genre:"Poete · Fotografe · Kuratore", bio:"Rozafa Shpuza lindi në Shkodër, qytetin që ka lanë gjurmë të pashlyeshme në krijimtarinë e saj. Arti i saj lëviz natyrshëm mes fjalës dhe imazhit, tue krijue nji univers të vetin shprehës. Autore e pesë librave poetike, poezitë e saj janë vlerësue me çmime kombëtare e ndërkombëtare. Prej vitesh drejton galerinë \"ODA\" në Shkodër.", books:"1 titull në Fiorentia" },
+  { initials:"JK", photo:"images/jasmina.jpg", name:"Jasmina Kotrri", genre:"Poete · Përkthyese · Kryeredaktore", bio:"Jasmina Kotrri u lind me 17 Shkurt 1983 në Shkodër. U rrit dhe u arsimua në qytetin e lindjes, në degën Gjuhë-Letërsi. Jeta e saj vazhdon në emigrim bashkë me familjen. Diplomohet në Administrim Biznes në Pantion të Patrës, Psikologji tregtare dhe edukative në Oxford, dhe ndjek studimet në universitetin Kapodistrian të Athinës. Fituese e disa çmimeve kombëtare në shtetin helen në poezi greke dhe përkthime. Poete, përkthyese, kryeredaktore dhe bashkëdrejtuese e Revistës Letrare \"G&G\" që botohet në Shkodër. Me moton: \"Shkodra asht djepi, ku përkundet jeta jeme!\"", books:"1 titull në Fiorentia" },
+  { initials:"RS", photo:"images/rozafa.jpg", name:"Rozafa Shpuza", genre:"Poete · Fotografe · Kuratore", bio:"Rozafa Shpuza është një artiste shumëdimensionale nga Shkodra, e angazhuar si galeriste, fotografe dhe poete. Veprimtaria e saj përfshin një krijimtari të pasur letrare me libra në prozë dhe poezi, si \"Kohë ikonash\", \"Anipse\", \"Grizhlat\", \"Nana i qindiste kryq dimnat\" dhe \"Vetimat e shuajnë inatin n'Bunë\". Ajo është vlerësuar me çmime në festivale kombëtare dhe ndërkombëtare në Shqipëri, Kosovë dhe Maqedoninë e Veriut. Në fotografinë ka ekspozita personale dhe kolektive në Shqipëri, Kosovë, Mal të Zi, Serbi dhe Itali. Është themeluese e galerisë \"ODA\" në Shkodër. Rozafa Shpuza përfaqëson një figurë të rëndësishme në kulturën shqiptare, me ndikim të dukshëm në letërsi dhe artet pamore..", books:"1 titull në Fiorentia" },
   { initials:"PL", photo:"images/pjetri.jpg", name:"Pjetër Logoreci", genre:"Studiues · Publicist · Ambasador i Paqes", bio:"Pjetër Logoreci leu në Shkodër në familjen qytetare e atdhetare Logoreci. Kreu studimet në shkencat juridike në Universitetin e Shkodres \"Luigj Gurakuqi\". Pas vitit 1997, për arsye politike u largue në Austri ku jeton dhe sot. Veprimtar aktiv për liri e demokraci. Mori pjesë në grevën kombëtare të urisë për të drejtat e të burgosurve politik. Si studiues, merret me figurat kombëtare shqiptare në arkivat e Austrisë. Asht AMBASADOR I PAQES, gëzon MIRËNJOHJA E LURËS dhe «Mirënjohja e Presidentit» Alfred Moisiu. Ka pregaditë e botue dy libra dhe nji album me fotografi.", books:"2 tituj në Fiorentia" },
-  { initials:"RN", photo:"images/rubjana.jpg", name:"Rubjana Nika", genre:"Poete · Mësuese", bio:"Ka lindur në vitin 1968 në Burrel, ku kaloi fëmijërinë, rininë e më tej. Ka studiuar për Gjuhë-Letërsi dhe ka ushtruar profesionin si mësuese e Gjuhës dhe e Letërsisë në disa shkolla të rrethit Mat. Që në vitin 2018 vazhdon profesionin e mësuesisë pranë shkollës 9-vjeçare \"M. Gjestila\", në profilin e mësueses ndihmëse, pasi mbaroi masterin për Arsim Special. Është autore e 3 vëllimeve poetike: \"Copëza jete\", \"Detaje realiteti\", \"Vargu frymon vendlindjes sime\".", books:"2 tituj në Fiorentia" },
+  { initials:"RN", photo:"images/rubjana.jpg", name:"Rubjana Nika", genre:"Poete · Mësuese", bio:"Ka lindur në vitin 1968 në Burrel, ku kaloi fëmijërinë, rininë e më tej. Ka studiuar për Gjuhë-Letërsi dhe ka ushtruar profesionin si mësuese e Gjuhës dhe e Letërsisë në disa shkolla të rrethit Mat. Që në vitin 2018 vazhdon profesionin e mësuesisë pranë shkollës 9-vjeçare \"M. Gjestila\", në profilin e mësueses ndihmëse, pasi mbaroi masterin për Arsim Special. Është autore e 3 vëllimeve poetike: \"Copëza jete\", \"Detaje realiteti\", \"Vargu frymon vendlindjes sime\".", books:"4 tituj në Fiorentia" },
   { initials:"AG", photo:"images/aurora.jpg", name:"Aurora Guska", genre:"Avokate · Shkrimtare", bio:"Avokate dhe ish-sekretare gjyqësore me mbi 37 vite përvojë në sistemin e drejtësisë. Ka mbrojtur dhjetëra raste të të miturve në konflikt me ligjin, grave në nevojë dhe qytetarëve të pambrojtur, duke dhënë shpesh ndihmë juridike pro bono. Në vitin 2010 botoi librin \"Një jetë si punonjëse e Gjykatës Kukës\". Me origjinë nga Vlora, jeta e solli në Kukës ku ndërtoi familjen dhe fitoi besimin e komunitetit, duke u zgjedhur dy herë rradhazi anëtare e Këshillit Bashkiak të Kukësit. Kukësi, qytet i nominuar për Çmimin Nobel për Paqen, është bërë pjesë e shpirtit të saj.", books:"1 titull në Fiorentia" },
 ];
 
@@ -436,7 +438,7 @@ function renderBooks() {
         <div style="font-size:0.68rem;letter-spacing:0.1em;color:#c9a84c;opacity:0.75;margin-bottom:0.4rem;">${b.author}</div>
         ${b.translator?`<div style="font-size:0.65rem;color:#8a7f6e;margin-bottom:0.2rem;font-style:italic;">${b.translator}</div>`:''}
         ${b.collection?`<div style="font-size:0.62rem;color:#c9a84c;opacity:0.7;margin-bottom:0.4rem;letter-spacing:0.05em;">${b.collection}</div>`:''}
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#c9a84c;">${b.price>0?b.price.toLocaleString()+' Lekë':b.price===-1?'Të drejtat e botimit dhe të shpërndarjes ALBAS':'Çmimi — së shpejti'}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#c9a84c;">${b.price>0?b.price.toLocaleString()+' Lekë':b.price===-1?'Të drejtat e botimit dhe të shpërndarjes ALBAS':b.price===-2?'':'Çmimi — së shpejti'}</div>
       </div>
     </div>`).join('');
 }
@@ -453,10 +455,6 @@ function renderAuthors() {
     </div>`).join('');
 }
 
-function filterBooks(btn, genre) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active'); activeFilter = genre; renderBooks(); setTimeout(updateArrows, 100);
-}
 
 function openModal(id) {
   const b = books.find(x => x.id === id); if (!b) return;
@@ -477,12 +475,15 @@ function openModal(id) {
   } else if (b.price === -1) {
     priceEl.textContent = 'Të drejtat e botimit dhe të shpërndarjes ALBAS';
     priceEl.style.fontSize = '0.8rem';
+  } else if (b.price === -2) {
+    priceEl.textContent = '';
+    priceEl.style.fontSize = '1.4rem';
   } else {
     priceEl.textContent = 'Çmimi — së shpejti';
     priceEl.style.fontSize = '1.4rem';
   }
   document.getElementById('modalAdd').onclick = () => addToCart(b.title);
-  document.getElementById('modalAdd').style.display = b.price===-1?'none':'inline-block';
+  document.getElementById('modalAdd').style.display = (b.price===-1||b.price===-2)?'none':'inline-block';
   document.getElementById('modalOrderBtn').style.display = b.price>0?'inline-block':'none';
   document.getElementById('orderForm').style.display = 'none';
   document.getElementById('orderSuccess').style.display = 'none';
@@ -490,6 +491,22 @@ function openModal(id) {
   document.getElementById('orderAmount').textContent = b.price.toLocaleString()+' Lekë';
   document.getElementById('orderReason').textContent = reason;
   document.getElementById('orderReason2').textContent = reason;
+  if (b.bank === 'rozafa') {
+    document.getElementById('orderBankName').textContent = 'Rozafa Cipuri';
+    document.getElementById('orderBankNr').textContent = '902016140087892208';
+    document.getElementById('orderBankIban').textContent = 'AL50902513390161400878922088';
+    document.getElementById('orderSwift').textContent = 'PUPPALTR';
+    document.getElementById('orderSwiftRow').style.display = 'inline';
+    document.getElementById('euroSection').style.display = 'none';
+    document.getElementById('euroDivider').style.display = 'none';
+  } else {
+    document.getElementById('orderBankName').textContent = 'Meritan Spahija';
+    document.getElementById('orderBankNr').textContent = '0000608878';
+    document.getElementById('orderBankIban').textContent = 'AL50202510020000000000608878';
+    document.getElementById('orderSwiftRow').style.display = 'none';
+    document.getElementById('euroSection').style.display = 'block';
+    document.getElementById('euroDivider').style.display = 'block';
+  }
   const ru = document.getElementById('modalReadUrl');
   if (b.readUrl) { document.getElementById('modalReadLink').href = b.readUrl; ru.style.display='block'; } else { ru.style.display='none'; }
   const cover = document.getElementById('modalCover');
@@ -567,18 +584,62 @@ function updateAuthorArrows() {
   right.style.display = grid.scrollLeft < grid.scrollWidth - grid.clientWidth - 10 ? 'flex' : 'none';
 }
 
+function scrollBooks(dir) {
+  const grid = document.getElementById('books-grid');
+  grid.scrollBy({ left: dir * 450, behavior: 'smooth' });
+}
+function updateArrows() {
+  const grid = document.getElementById('books-grid');
+  const left = document.getElementById('arrowLeft');
+  const right = document.getElementById('arrowRight');
+  if (!grid||!left||!right) return;
+  left.style.display = grid.scrollLeft > 10 ? 'flex' : 'none';
+  right.style.display = grid.scrollLeft < grid.scrollWidth - grid.clientWidth - 10 ? 'flex' : 'none';
+}
+function scrollAuthors(dir) {
+  const grid = document.getElementById('authors-grid');
+  grid.scrollBy({ left: dir * 450, behavior: 'smooth' });
+}
+function updateAuthorArrows() {
+  const grid = document.getElementById('authors-grid');
+  const left = document.getElementById('authorArrowLeft');
+  const right = document.getElementById('authorArrowRight');
+  if (!grid||!left||!right) return;
+  left.style.display = grid.scrollLeft > 10 ? 'flex' : 'none';
+  right.style.display = grid.scrollLeft < grid.scrollWidth - grid.clientWidth - 10 ? 'flex' : 'none';
+}
+function filterBooks(btn, genre) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active'); activeFilter = genre; renderBooks(); setTimeout(updateArrows, 100);
+}
 renderBooks();
 renderAuthors();
-
-// Setup arrows after render
-function setupArrows() {
+setTimeout(() => {
   const bGrid = document.getElementById('books-grid');
   if (bGrid) { bGrid.addEventListener('scroll', updateArrows); updateArrows(); }
   const aGrid = document.getElementById('authors-grid');
   if (aGrid) { aGrid.addEventListener('scroll', updateAuthorArrows); updateAuthorArrows(); }
-}
-setTimeout(setupArrows, 300);
-window.addEventListener('resize', setupArrows);
+}, 300);
+// Align Furra logo with Na Kontaktoni button
+setTimeout(() => {
+  const btn = document.querySelector('.btn-outline');
+  const logo = document.getElementById('furraLogo');
+  const hero = document.getElementById('hero');
+  if (btn && logo && hero) {
+    const btnRect = btn.getBoundingClientRect();
+    const heroRect = hero.getBoundingClientRect();
+    logo.style.top = (btnRect.top - heroRect.top + btnRect.height/2) + 'px';
+    logo.style.transform = 'translateY(-50%)';
+  }
+}, 200);
+
+// Setup arrows after render
+setTimeout(() => {
+  const bGrid = document.getElementById('books-grid');
+  if (bGrid) { bGrid.addEventListener('scroll', updateArrows); updateArrows(); }
+  const aGrid = document.getElementById('authors-grid');
+  if (aGrid) { aGrid.addEventListener('scroll', updateAuthorArrows); updateAuthorArrows(); }
+}, 100);
 
   // Second scanner — Furra e Books tagline, synced, no audio, no visible line
   const furraWrap = document.getElementById('furraScan');
@@ -627,20 +688,6 @@ window.addEventListener('resize', setupArrows);
 
   setTimeout(runFurraScan, 1800);
 
-// Align Furra logo with Na Kontaktoni button
-setTimeout(() => {
-  const btn = document.querySelector('.btn-outline');
-  const logo = document.getElementById('furraLogo');
-  const hero = document.getElementById('hero');
-  if (btn && logo && hero) {
-    const btnRect = btn.getBoundingClientRect();
-    const heroRect = hero.getBoundingClientRect();
-    const btnCenterY = btnRect.top - heroRect.top + btnRect.height / 2;
-    logo.style.top = btnCenterY + 'px';
-    logo.style.transform = 'translateY(-50%)';
-  }
-}, 200);
-
 (function(){
   const word = 'FIORENTIA';
   const wrap = document.getElementById('fioTitle');
@@ -652,11 +699,34 @@ setTimeout(() => {
     wrap.appendChild(s); spans.push(s);
   });
 
+  let audioCtx = null;
+  let heroVisible = false;
+  const obs = new IntersectionObserver(entries => { heroVisible = entries[0].isIntersecting; }, {threshold:0.3});
+  obs.observe(document.getElementById('hero'));
+
+  function playScanSound(dur) {
+    if (!heroVisible) return;
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const ctx = audioCtx; const t = dur/1000;
+      const osc = ctx.createOscillator(); const gain = ctx.createGain(); const filt = ctx.createBiquadFilter();
+      osc.type='sawtooth'; osc.frequency.setValueAtTime(2400,ctx.currentTime);
+      osc.frequency.linearRampToValueAtTime(600,ctx.currentTime+t);
+      filt.type='highpass'; filt.frequency.value=1800; filt.Q.value=8;
+      gain.gain.setValueAtTime(0,ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.025,ctx.currentTime+0.04);
+      gain.gain.linearRampToValueAtTime(0,ctx.currentTime+t);
+      osc.connect(filt); filt.connect(gain); gain.connect(ctx.destination);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime+t);
+    } catch(e) {}
+  }
+
   function runScan() {
     const wr = wrap.getBoundingClientRect();
     const totalW = wr.width; const duration = 1600; const pause = 15000;
     let start = null;
     line.style.opacity = '1';
+    playScanSound(duration);
     function frame(ts) {
       if (!start) start = ts;
       const p = Math.min((ts-start)/duration, 1);
